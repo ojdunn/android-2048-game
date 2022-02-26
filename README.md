@@ -1,6 +1,6 @@
 # Android 2048 Game
 
-Use of API 32, supporting back to API 26, using kotlin.
+Use of API 32, supporting back to API 26, using Kotlin.
 
 A clone of the popular 2048 number sliding game.
 
