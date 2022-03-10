@@ -8,6 +8,12 @@ Use of API 32, supporting back to API 26, using Kotlin.
 
 In progress.
 
+## Links
+
+[Android documentation](https://developer.android.com/reference)
+[Kotlin documentation](https://kotlinlang.org/docs/getting-started.html)
+[App Github Page](https://github.com/ojdunn/android-2048-game)
+
 ## Technology used
 
 ### Android
@@ -22,6 +28,10 @@ While an app is running it can be in seven states. The most important states inc
 
 `onCreate()`, the first hook of the lifecycle of an Android app, can be overriden to allow the programmer to set the views, widgets, listeners, resources, and more.
 
+When a new activity is started the sequence of hook calls is `onCreate(), onStart(), onResume()`. On a transition to a new activity with an intent call of `startActivity(intentName)` then `onPause(), onStop()` are called before the same start calls are made for the next activity. `onStop()` hides a screen. If the back button is pressed then `onDestroy()` is called after `onStop()`, forcing the activity to be recreated if it is ever accessed again. A stack data structure is used for activity transitions similar to function call stacks.
+
+The `finish()` method of the `Activity` class allows you to terminate an activity and remove it from the activity stack. Use it to set transition behavior when moving back. Place within `onStop()` override?
+
 The functions `onSaveInstanceState()` and `onRestoreInstanceState()` exist to restore a state after an interruption.
 
 The manifest file `AndroidManifest.xml` defines the overall structure of the app. It includes the unique package name, permissions, themes, components, activity classes, and entry point.
@@ -31,6 +41,16 @@ The manifest file `AndroidManifest.xml` defines the overall structure of the app
 ##### Architecture Components
 
 This is part of the Jetpack bundle. It includes ways to improve adherence to MVC-like architectures (such as `livedata`, `databinding`, `room` libraries), app lifecycle (such as `lifecycle` library) management, running concurrent tasks in the background (such as `workmanager`), UI transitions (such as `navigation`).
+
+####### navigation
+
+This can be used to design an app with one Activity class consisting of a Fragment class for each screen/destination and a host Activity containing a navigation host fragment to control screen transitions.
+
+This library consists of a navigation graph xml file. It handle the activity stack automatically, allows type safe argument passing between screens, and more.
+
+It also has a navigation host fragment. This is a UI fragment that is added to a layout to swap screen destinations in and out of the current view.
+
+Third, it has a navigation controller. This is a fragment object used with the navigation host fragment to tell the UI fragment what screen to load or unload.
 
 ##### ButterKnife
 
@@ -57,9 +77,13 @@ A **Model-View-Viewmodel (MVVM)** architecture may work best with Android. In th
 
 In the data binding process, the view subscribes to a data stream produced by the viewmodel. The view also displays data to the UI and captures user UI actions. The viewmodel does not need a reference to the view and it handles the UI data. The model handles application logic and data, notifies the viewmodel of changes, and receives updates from the viewmodel.
 
-The app is to consist of a welcome screen, a register account screen, an options screen, and a game screen. It is recommended by experts to use the Jetpack `navigation` library to create an app with one activity, a navigation graph, and a navigation controller to transition between screens. Another option is to use a separate activity for each screen.
+The app is to consist of a welcome screen, a register account screen, an options screen, and a game screen. It is recommended by experts to use the Jetpack `navigation` library to create an app with one activity, a navigation graph, and a navigation controller to transition between screens. Each screen would be written as a single `Fragment` class hosted by a single `Activity` class. Fragments all have independent lifecycles like Activities and similar hook methods. Some additional hook methods of Fragments include onCreateView(), onAttach(), onDetach(), onDestroyView(). They use layout files like Activities.
 
-The title screen simply introduces the game and allows the user to sign in or start a game without signing in. If the player doesn't sign in local data will be used. If the player signs in remote data will overwrite local data. Local data will be written remotely before the player exits the app. [Firebase](#Firebase) might be used for this purpose.
+Another option is to use a separate activity for each screen and changing between screens using the `Intent` class. This class also allows data to be sent between screens.
+
+The title screen simply introduces the game and allows the user to sign in or start a game without signing in. If the player doesn't sign in local data will be used. If the player signs in remote data will overwrite local data. Local data will be written remotely before the player exits the app. [Firebase](#Firebase) might be used for this purpose. 
+
+The fit Android material design recommendations (see more on design section of Android docs) the options should be selected from the top app bar (the "action menu") and starting the game should be selected by a floating action bar (FAB) as starting the game is the primary action.
 
 The register screen allows a user to save their credentials to the cloud to allow the storage of their game data. This is an extra feature done for educational reasons. A game like this likely wouldn't need cloud storage unless connected to cloud game services, such as Google Play.
 
