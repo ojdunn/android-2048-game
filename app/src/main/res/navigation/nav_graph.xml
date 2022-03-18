@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
+    android:label="Register an account"
     app:startDestination="@id/loginFragment">
 
     <fragment
@@ -13,6 +14,9 @@
         <action
             android:id="@+id/action_login2main"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_login2register"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -23,5 +27,21 @@
             android:name="userEmail"
             android:defaultValue="local"
             app:argType="string" />
+        <action
+            android:id="@+id/action_main2login"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.owenjdunn.game2048.RegisterFragment"
+        android:label="Register an account"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_register2main"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".NavigationActivity">
 
-    <!-- using FragmentContainerView as recommended causes a program crash TODO find out why-->
+    <!-- using FragmentContainerView as recommended causes program crash TODO find out why-->
     <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"

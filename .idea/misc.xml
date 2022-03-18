@@ -3,12 +3,36 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.4615" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color1024.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color128.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color16.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color2.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color2048.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color256.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color32.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color4.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color4096.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color512.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color64.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color8.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable-v24/text_color8192.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable/baseline_check_circle_teal_a400_24dp.xml" value="0.438" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable/dpad_up.xml" value="0.262" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable/ic_baseline_gamepad_24.xml" value="0.4615" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable/ic_baseline_videogame_asset_black_24dp.xml" value="0.4615" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable/ic_launcher_background.xml" value="0.4615" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable/text_color0.xml" value="0.3955" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/drawable/text_color1.xml" value="0.3955" />
         <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/layout/activity_login.xml" value="0.2930253623188406" />
         <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/layout/activity_main.xml" value="0.2692502532928065" />
         <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/layout/activity_navigation.xml" value="0.18" />
         <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/layout/fragment_login.xml" value="0.2" />
         <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/layout/fragment_main.xml" value="0.33" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/layout/fragment_register.xml" value="0.3451086956521739" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/layout/sample_text_view_square.xml" value="0.5280797101449275" />
         <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/layout/title_screen.xml" value="0.25" />
+        <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/menu/menu.xml" value="0.46770833333333334" />
         <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/menu/menu_title.xml" value="0.33" />
         <entry key="..\:/Users/Owen/AndroidStudioProjects/android-2048-game/app/src/main/res/xml/root_preferences.xml" value="0.25" />
       </map>

@@ -11,7 +11,9 @@ In progress.
 ## Links
 
 [Android documentation](https://developer.android.com/reference)
+
 [Kotlin documentation](https://kotlinlang.org/docs/getting-started.html)
+
 [App Github Page](https://github.com/ojdunn/android-2048-game)
 
 ## Technology used
@@ -42,11 +44,13 @@ The manifest file `AndroidManifest.xml` defines the overall structure of the app
 
 This is part of the Jetpack bundle. It includes ways to improve adherence to MVC-like architectures (such as `livedata`, `databinding`, `room` libraries), app lifecycle (such as `lifecycle` library) management, running concurrent tasks in the background (such as `workmanager`), UI transitions (such as `navigation`).
 
-####### navigation
+##### navigation
 
 This can be used to design an app with one Activity class consisting of a Fragment class for each screen/destination and a host Activity containing a navigation host fragment to control screen transitions.
 
 This library consists of a navigation graph xml file. It handle the activity stack automatically, allows type safe argument passing between screens, and more.
+
+The actions on the graph represent transitions between screens. They include some options to have desired behavior in the screen stack. The option *PopupTo* tells what screen to go to when the user hits back. The option *PopUpToInclusive* tells whether to pop the old instance of the destination screen when moving back. You may want to use this option when you have more than one action leading to the same screen.
 
 It also has a navigation host fragment. This is a UI fragment that is added to a layout to swap screen destinations in and out of the current view.
 
@@ -61,8 +65,6 @@ Allows data binding. This can be used to set up a Model-View-Viewmodel (MVVM).
 Developed by JetBrains and officially endorsed by Google for Android Development, Kotlin compiles into Java bytecode for use on a JVM. It also works with Java code within the same and other files of a compiled project. Any Java libraries supported by Android should work with Kotlin. In addition, old Java code can be translated to Kotlin by Android Studio. 
 
 ### Firebase
-
-
 
 ## Code plans
 
@@ -91,20 +93,40 @@ The options screen allows the player to choose various game options such as winn
 
 The game screen itself features a grid of squares with numerical text. A floating action bar, directional swipes, or tilting motions might be used to control the game. If possible, I will first implement a floating action bar with the four directions: left, right, up, and down.
 
+The game board can be created using Android layouts and widgets. One solution is to use TextView widgets with TableLayout and TableRow layouts. TableLayout doesn't support borders, so a rectangle can be drawn in each cell and a background color can be set to better see the cell borders. You should be able to programmatically add rows and cells of TextView during the game to change board size for different screen sizes and custom player choice. Keep track of each cell of TextView added to the board to change its text value as the game logic finds new cell values after each player move.
+
 The logic of the game is summarized [above](#2048-number-sliding-game-for-android). The data for the game board must be updated to the UI every turn. The viewmodel will get this data from the model component to allow the UI view to update through data binding.
 
 ## Code overview
 
-A passive view consists of the views and their controllers. As the user uses buttons, swipes a direction, etc., listeners take actions to 
+The Jetpack library [navigation](#navigation) is used with a navigation controller, navigation graph xml, an navigation host fragment. A single navigation activity and its layout xml hosts different layouts, which are themselves managed through their respective layout xml and fragment class files. The navigation graph defines the activity stack behavior and allows type safe passing of data by bundling it in navigation controller **navigate** function calls.
+
+The app launches with the NavigationActivity class hosting the LoginFragment class. This fragment allows a user to login with an existing account (no database and device storage yet) to play the game. The user can also play as a guest with no account by hitting the floating action button without entering user data. 
+
+The different buttons of LoginFragment have actions that are set with OnClickListener lambda functions (as the OnClickListener interface only has one method). These functions pass a View object reference (parent class of many widgets including the button) to the defined function code, but you don't have to use it.
+
+The login button runs some code to check if the email and password are valid. A regular expression `java.until.regex.Pattern` object is used to check for a valid email pattern. This object has a matcher method to test a passed string reference against a compiled pattern.
+
+The main game button, as a floating action button, allows the user to play as a guest or with login details if they are filled in first.
+
+A register button allows the user to change to the register fragment layout.
+
+The main button (a floating action button)
+A passive view consists of the views and their controllers. As the user uses buttons, swipes a direction, etc., listeners take action to signal model to move the numbers a direction using the game logic.
+
+The navigation controller is found and used to navigation to the appropriate fragment layout depending on what button is pressed and if valid data is provided.
+
+The `RegisterFragment` allows the user to create a new account. 
 
 The model consists of the game logic.
-
 
 ## TODO
 
 - [ ] A playable game with basic graphics.
 - [ ] Allow user to choose and set several different play options.
+- [ ] Allow choice of a few game board sizes
 - [ ] Based on the phones screen size, determine the range of permitted number grid x and y axes. 
 - [ ] An options screen or popup menu allows you to select the number grid size.
+- [ ] Record user statistics to display in a UI and potentially save across play sessions.
 - [ ] Allow user accounts and cloud storage.
-- [ ] Improve presentation: more attractive visuals, sounds, color, etc.
+- [ ] Improve presentation: more attractive visuals, sounds, color, vectors, etc.

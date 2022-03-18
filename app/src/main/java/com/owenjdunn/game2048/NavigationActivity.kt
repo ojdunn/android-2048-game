@@ -20,7 +20,8 @@ class NavigationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
 
-        val nc = findNavController(R.id.nav_host_fragment) // not sure about arg CRASH HERE? illegalstateexception
+        // CRASH next line? illegalstateexception when using FragmentContainerView; no crash with fragment
+        val nc = findNavController(R.id.nav_host_fragment)
         appBarConfig = AppBarConfiguration(nc.graph)
         setupActionBarWithNavController(nc, appBarConfig)
     }

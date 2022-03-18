@@ -1,11 +1,11 @@
 package com.owenjdunn.game2048
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.TableLayout
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -13,6 +13,7 @@ import android.widget.TextView
 //private const val ARG_PARAM2 = "param2"
 
 /**
+ * Contains the game layout.
  * A simple [Fragment] subclass.
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
@@ -33,9 +34,11 @@ class MainFragment : Fragment() {
 //            param2 = it.getString(ARG_PARAM2)
 //        }
 
+        setHasOptionsMenu(true) // signal to fragment it has an options menu to display
+
         emailAddr = try {
                 requireArguments().getString("userEmail").toString()
-            } catch (e: IllegalStateException) { "local" /* don't use account, use local data*/ }
+            } catch (e: IllegalStateException) { "Guest" /* don't use account, use local data*/ }
 
     }
 
@@ -59,6 +62,38 @@ class MainFragment : Fragment() {
         // change text of TextView widget
         val userId = view.findViewById<TextView>(R.id.user_id)
         userId.text = emailAddr
+
+        // create a basic test game board programatically (to later allow different sizes and changes during play)
+//        val gameTableLayout: TableLayout = view.findViewById(R.id.game_table_layout)
+//        var rows = 8
+//        var cols = 8
+//        var gameBoardArray: Array<Array<TextView>> // might want to use an array of TextViews to access them
+//        val cell: TextView =
+
+        // create each table row programmatically
+        // may need to define layout and textview params to display properly TODO
+//        for (row in 0 until rows) {
+//            // create a new TableRow: fill screen, streach and condense,
+//            val tr = TableRow(view.context, )
+//            // add TableRow to TableLayout
+//            gameTableLayout.addView(tr)
+//            for (col in 0 until cols) {
+//                // create textview: take up area of 4-5 digit number with a little extra, color background,
+//                // border of some kind, bold, large text
+//                val tx = TextView(view.context)
+//                tx.text = "2048"   // don't leave 0 print in final result; view doesn't show up without it for now though
+//                // assign it to (row, col) cell
+//                tr.addView(tx)
+////                if (col == cols - 1) {
+//////                    tr.forEach { gameBoardArray[++] =   }
+//////                    gameBoardArray.set(row, tr)
+////                    for (i in 0 until cols) {
+////                        gameBoardArray[i] =
+////                    }
+////                }
+//            }
+//        }
+//        gameTableLayout.getChildAt()
     }
 
 //    companion object {
@@ -80,4 +115,31 @@ class MainFragment : Fragment() {
 //                }
 //            }
 //    }
+
+    /**
+     * Display the menu created in an xml file within resources.
+     */
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_main, menu)
+    }
+
+    /**
+     * Called when an option item is selected and what is done when this happens.
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_logout) {    // goto a new instance of login screen, TODO logout of user account, data recording
+            findNavController().navigate(R.id.action_main2login)
+            return true
+        }
+//        else if (item.itemId == R.id.action_options) {    // TODO goto options UI
+//        findNavController().navigate(R.id.action_main2options)
+//           return true
+//        }
+//        else if (item.itemId == R.id.action_stats) {    // TODO goto stats UI
+//        findNavController().navigate(R.id.action_main2stats)
+//           return true
+//        }
+        return false
+    }
 }

@@ -1,24 +1,304 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainFragment">
+-->
+<!--
+Should use <80 views (currently 81), compound drawables can help? (performance)
+-->
 
-    <!-- TODO: Update blank fragment layout -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="#000000"
+    android:orientation="vertical"
+    tools:context=".MainFragment">
+
+    <TextView
+        android:id="@+id/user_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_message"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+    <TableLayout
+        android:id="@+id/game_table_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="140dp"
+        android:orientation="vertical"
+        android:stretchColumns="*">
+
+        <TableRow
+            android:id="@+id/row1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <!--
+            autoSize attribs might be used to change text size to always fit (tested for 4 digits, will need to be smaller if 5+)
+            style use to set most attributes of cells, allow easy change between board sizes
+            -->
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+
+            <TextView style="@style/BoardCellLarge" />
+        </TableRow>
+
+    </TableLayout>
+
+    <!--
+    Directional pad (dpad) views within a ConstraintLayout.
+    Might replace with a nicer solid dpad with multiple buttons or nicer looking shaped buttons
+    -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="171dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="279dp">
 
-        <TextView
-            android:id="@+id/user_id"
+        <ImageButton
+            android:id="@+id/upBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/main_message"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#82B1FF"
+            android:contentDescription="@string/up"
+            android:src="@drawable/baseline_arrow_upward_black_36dp"
+            app:layout_constraintStart_toEndOf="@+id/leftBtn"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/rightBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#82B1FF"
+            android:contentDescription="@string/right"
+            android:src="@drawable/baseline_arrow_forward_black_36dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/undoBtn"
+            app:layout_constraintTop_toBottomOf="@+id/upBtn" />
+
+        <ImageButton
+            android:id="@+id/leftBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#82B1FF"
+            android:contentDescription="@string/left"
+            android:src="@drawable/baseline_arrow_back_black_36dp"
+            app:layout_constraintEnd_toStartOf="@+id/undoBtn"
+            app:layout_constraintTop_toBottomOf="@+id/upBtn" />
+
+        <ImageButton
+            android:id="@+id/undoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#82B1FF"
+            android:contentDescription="@string/undo"
+            android:src="@drawable/baseline_undo_black_36dp"
+            app:layout_constraintEnd_toEndOf="@+id/upBtn"
+            app:layout_constraintTop_toBottomOf="@+id/upBtn" />
+
+        <ImageButton
+            android:id="@+id/downBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#82B1FF"
+            android:contentDescription="@string/down"
+            android:src="@drawable/baseline_arrow_downward_black_36dp"
+            app:layout_constraintEnd_toEndOf="@+id/undoBtn"
+            app:layout_constraintStart_toEndOf="@+id/leftBtn"
+            app:layout_constraintTop_toBottomOf="@+id/undoBtn" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+</LinearLayout>
