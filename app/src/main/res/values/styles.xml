@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="BoardCellLarge"> <!-- setTextAppearance(R.id) to switch -->
+    <!--
+    Extract common attributes of views in a style to make it easy to change and maintain them.
+    Themes run across multiple views and other things such as background and app bar. They define a
+    collection of named resources. You can apply a style as a theme for a whole app, activity, or
+    collection of views.
+    -->
+    <style name="BoardRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="BoardCell"> <!-- setTextAppearance(R.id) to switch -->
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:width">50dp</item>
-        <item name="android:height">50dp</item>
+        <item name="android:text"> </item>
         <item name="android:background">@drawable/text_color0</item>
         <item name="android:gravity">center_horizontal|center_vertical</item>
-        <item name="android:text"> </item>
         <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="BoardCell.Large"> <!-- inherits from BoardCell -->
+        <item name="android:width">50dp</item>
+        <item name="android:height">50dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="DpadPiece">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:backgroundTint">@color/blue_a100_1024</item>
+    </style>
+
 </resources>

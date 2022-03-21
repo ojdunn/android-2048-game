@@ -11,4 +11,26 @@
     <color name="light_blue_600">#FF039BE5</color>
     <color name="gray_400">#FFBDBDBD</color>
     <color name="gray_600">#FF757575</color>
+    <!-- custom color theme begins -->
+    <color name="lightgreen_a100">#ccff90</color>
+    <color name="light_lightgreen_a100">#ffffc2</color>
+    <color name="dark_lightgreen_a100">#99cc60</color>
+    <color name="teal_a100">#a7ffeb</color>
+    <color name="light_teal_a100">#dbffff</color>
+    <color name="dark_teal_a100">#75ccb9</color>
+    <color name="dark_orange_a100_0">#ff8a80</color>
+    <color name="light_orange_a100_1">#ffd180</color>
+    <color name="dark_yellow_a100_2">#f4ff81</color>
+    <color name="light_green_a100_4">#ccff90</color>
+    <color name="blue_a100_8">#84ffff</color>
+    <color name="purple_a100_16">#8c9eff</color>
+    <color name="dark_purple_a100_32">#b388ff</color>
+    <color name="pink_a100_64">#ea80fc</color>
+    <color name="orange_a100_128">#ffd180</color>
+    <color name="yellow_a100_256">#ffff8d</color>
+    <color name="light_teal_a100_512">#b9f6ca</color>
+    <color name="blue_a100_1024">#80d8ff</color>
+    <color name="dark_blue_a100_2048">#82b1ff</color>
+    <color name="dark_pink_a100_4096">#ff80ab</color>
+    <color name="dark_yellow_a100_8192">#ffe57f</color>
 </resources>

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.EditText
-import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -20,7 +20,7 @@ import java.util.regex.Pattern
 
 /**
  * A simple [Fragment] subclass.
- * Use the [RegisterFragment.newInstance] factory method to
+ * Use the RegisterFragment.newInstance factory method to
  * create an instance of this fragment.
  */
 class RegisterFragment : Fragment() {
@@ -30,6 +30,9 @@ class RegisterFragment : Fragment() {
     private val emailRegex = Pattern.compile(
         "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}",
         Pattern.CASE_INSENSITIVE)
+    // use a property delegate to init viewmodel class or get shared ref to it if already init (this app)
+    // use viewModels with fragment or activityViewModels with an activity like NavigationActivity (this app)
+    private val viewModel by activityViewModels<UserDataViewModel>()
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
@@ -93,13 +96,11 @@ class RegisterFragment : Fragment() {
 //                            .make(signInButton, getString(R.string.login_verified),
 //                                  Snackbar.LENGTH_SHORT)
 //                            .show()
-                    // TODO make sure back from main goes to login screen, not here
                     // Pass user email to main UI
 
                     // goto main game UI with account data use; pass user login data
-                    // TODO have back from main cause return to login, not here
-                    findNavController().navigate(R.id.action_register2main,
-                        bundleOf("userEmail" to emailStr/*, "userPassword" to passStr*/))
+                    viewModel.userId.value = emailStr   // store data into viewmodel
+                    findNavController().navigate(R.id.action_register2main)
                 }
             }
         }
