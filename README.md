@@ -42,6 +42,10 @@ The manifest file `AndroidManifest.xml` defines the overall structure of the app
 
 Android supports programmatic and declarative user interface design. Declarative involves stating the geometric relationships of layout components. Android then uses the constraints to find the location and size for each component for a given phone. A layout tool editor allows you to drag and drop various components and set constraints. A corresponding XML file is created and can be edited to define constraints as well.
 
+Layouts are set up with container classes (children of `ViewGroup`) that contain widget classes (children of `View`). For example, a ConstraintLayout with several `TextView` and `Button` widgets defined in place using constraints.
+
+With the LinearLayout you can set the layout_weight attribute for all children to say how much of the screen they will fill (widgets and containers). When you do this the layout_height must be set to 0dp for vertical layout and layout_width set to 0dp for horizontal layout for this to work. You might also use a container layout class within this layout for more complex layouts.
+
 The UI of Android allows you to set themes, styles, and widget specific attributes. A theme applies widely across the app and can be assigned to the whole app or an activity. Theme attributes are semantic to allow easy changing of specific attributes, such as colorPrimary. You would then assign a color by listing a color value from a color xml file. Styles are normally assigned to a specific type of view, such as a Button. Styles allow you to extract common attribute values, maintain and change attributes by groups easier.
 
 Both themes and styles allow inheritance. This allows you to define common attributes at a parent theme or style, change just a few things, and have a theme/style for a certain Android version numbers with new features and allow older phones to use parent style attributes only.
@@ -109,13 +113,13 @@ The Jetpack `lifecycle` package includes a `ViewModel` class. This class uses th
 
 The title screen simply introduces the game and allows the user to sign in or start a game without signing in. 
 
-The fit Android material design recommendations (see more on design section of Android docs) the options should be selected from the top app bar (the "action menu") and starting the game should be selected by a floating action bar (FAB) as starting the game is the primary action.
+The fit Android material design recommendations (see more on design section of Android docs) the options should be selected from the top app bar (the "action menu") and starting the game should be selected by a floating action button (FAB) as starting the game is the primary action.
 
 The register screen allows a user to create a new account.
 
 The options screen allows the player to choose various game options such as winning score, difficulty, and board size. The device running the game can only display a certain sized grid of squares (height, width) with readable numbers. The maximum size needs to be calculated based on the phone screen dimensions, if this is possible to do. Otherwise, a sensible range of game board sizes will be set. Auto-sizing, calculation, other must be done to make sure the UX fits the screen.
 
-The game screen itself features a grid of squares with numerical text. A floating action bar, directional swipes, or tilting motions might be used to control the game. If possible, I will first implement a floating action bar with the four directions: left, right, up, and down.
+The game screen itself features a grid of squares with numerical text. A FAB, directional swipes, or tilting motions might be used to control the game. If possible, I will first implement a FAB with the four directions: left, right, up, and down.
 
 The game board can be created using Android layouts and widgets. One solution is to use TextView widgets with TableLayout and TableRow layouts. TableLayout doesn't support borders, so a rectangle can be drawn in each cell and a background color can be set to better see the cell borders. You should be able to programmatically add rows and cells of TextView during the game to change board size for different screen sizes and custom player choice. Keep track of each cell of TextView added to the board to change its text value as the game logic finds new cell values after each player move.
 

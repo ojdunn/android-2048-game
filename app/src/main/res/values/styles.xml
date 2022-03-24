@@ -13,19 +13,23 @@
         <item name="android:gravity">center</item>
     </style>
     <style name="BoardCell"> <!-- setTextAppearance(R.id) to switch -->
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:text"> </item>
         <item name="android:background">@drawable/text_color0</item>
         <item name="android:gravity">center_horizontal|center_vertical</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:autoSizeTextType">uniform</item>
     </style>
-    <style name="BoardCell.Large"> <!-- inherits from BoardCell -->
-        <item name="android:width">50dp</item>
-        <item name="android:height">50dp</item>
-        <item name="android:textSize">20sp</item>
+    <style name="BoardCell.Large"> <!-- inherits from BoardCell-->
     </style>
+    <!-- BoardCell.Large - use if adaptive method doesn't work
+    way to autosize text to fit cell: android:autoSizeTextType uniform is one way
+    <item name="android:textSize">20sp</item>
+    <item name="android:width">50dp</item>
+    <item name="android:height">50dp</item>
+    -->
     <style name="DpadPiece">
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">50dp</item>

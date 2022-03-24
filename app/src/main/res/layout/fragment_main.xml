@@ -16,14 +16,15 @@ Should use <80 views (currently 81), compound drawables can help? (performance)
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#000000"
+    android:backgroundTint="@color/black"
     android:orientation="vertical"
     tools:context=".MainFragment">
 
     <TextView
         android:id="@+id/user_id"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
         android:text="@string/main_message"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
@@ -31,181 +32,80 @@ Should use <80 views (currently 81), compound drawables can help? (performance)
     <!--android:layout_marginTop="140dp"-->
     <TableLayout
         android:id="@+id/game_table_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6.5"
         android:orientation="vertical"
         android:stretchColumns="*">
 
         <TableRow
             android:id="@+id/row1"
             style="@style/BoardRow">
-
             <!--
             autoSize attribs might be used to change text size to always fit (tested for 4 digits, will need to be smaller if 5+)
             style use to set most attributes of cells, allow easy change between board sizes
             Buttons may stretch auto to look nicer?
             -->
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row2"
             style="@style/BoardRow">
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row3"
             style="@style/BoardRow">
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row4"
             style="@style/BoardRow">
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row5"
             style="@style/BoardRow">
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row6"
             style="@style/BoardRow">
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row7"
-            style="@style/BoardRow">
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row8"
-            style="@style/BoardRow">
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
-            <TextView style="@style/BoardCell.Large" />
-
             <TextView style="@style/BoardCell.Large" />
         </TableRow>
 
@@ -213,7 +113,10 @@ Should use <80 views (currently 81), compound drawables can help? (performance)
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:foregroundTintMode="src_in"
+        android:outlineAmbientShadowColor="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
