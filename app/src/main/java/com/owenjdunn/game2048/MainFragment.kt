@@ -67,6 +67,7 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 //        viewModel = ViewModelProvider(requireActivity()).get(UserDataViewModel::class.java)
+        // use observer pattern to retrieve data from viewmodel and display on UI
         viewModel.userId.observe(this.viewLifecycleOwner) { z ->    // Observer defined lambda
             val userId = view?.findViewById<TextView>(R.id.user_id)
             userId?.text = z    // update TextView text

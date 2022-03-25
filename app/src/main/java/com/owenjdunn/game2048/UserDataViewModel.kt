@@ -9,8 +9,9 @@ import androidx.lifecycle.ViewModel
  */
 class UserDataViewModel : ViewModel() {
     @Suppress("PropertyName")
-    var _usr = MutableLiveData<String>()
+    private var _usr = MutableLiveData<String>()    // the backing store for property userId
 
     // Declare a property userId and its getter
-    val userId get() = _usr
+    val userId
+        get() = _usr
 }

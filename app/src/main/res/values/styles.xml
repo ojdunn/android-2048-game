@@ -33,7 +33,7 @@
     <style name="DpadPiece">
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">50dp</item>
-        <item name="android:backgroundTint">@color/blue_a100_1024</item>
+        <item name="android:backgroundTint">@color/secondary</item>
     </style>
 
 </resources>

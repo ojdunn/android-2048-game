@@ -11,7 +11,7 @@
     <color name="light_blue_600">#FF039BE5</color>
     <color name="gray_400">#FFBDBDBD</color>
     <color name="gray_600">#FF757575</color>
-    <!-- custom color theme begins -->
+    <!-- A100 colors -->
     <color name="lightgreen_a100">#ccff90</color>
     <color name="light_lightgreen_a100">#ffffc2</color>
     <color name="dark_lightgreen_a100">#99cc60</color>
@@ -33,4 +33,14 @@
     <color name="dark_blue_a100_2048">#82b1ff</color>
     <color name="dark_pink_a100_4096">#ff80ab</color>
     <color name="dark_yellow_a100_8192">#ffe57f</color>
+    <!-- semantic colors -->
+    <color name="primary_dark">@color/black</color> <!-- background of status bar -->
+    <color name="primary">@color/lightgreen_a100</color> <!-- background of app bar -->
+    <color name="on_primary">@color/light_lightgreen_a100</color> <!-- -->
+    <color name="primary_variant">@color/dark_lightgreen_a100</color> <!-- -->
+    <color name="accent">@color/blue_a100_1024</color> <!-- UI controls tint -->
+    <color name="secondary">@color/teal_a100</color> <!-- -->
+    <color name="secondary_variant">@color/dark_teal_a100</color> <!-- -->
+    <color name="on_secondary">@color/light_teal_a100</color> <!-- -->
+    <color name="window_background">@color/primary</color> <!-- -->
 </resources>

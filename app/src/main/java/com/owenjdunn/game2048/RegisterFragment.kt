@@ -30,7 +30,7 @@ class RegisterFragment : Fragment() {
     private val emailRegex = Pattern.compile(
         "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}",
         Pattern.CASE_INSENSITIVE)
-    // use a property delegate to init viewmodel class or get shared ref to it if already init (this app)
+    // use a property delegate to init viewmodel class instance or get shared ref to it if already init (this app)
     // use viewModels with fragment or activityViewModels with an activity like NavigationActivity (this app)
     private val viewModel by activityViewModels<UserDataViewModel>()
 

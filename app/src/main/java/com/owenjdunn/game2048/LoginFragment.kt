@@ -40,8 +40,11 @@ class LoginFragment : Fragment() {
 //            param2 = it.getString(ARG_PARAM2)
 //        }
 //    }
+
 // shared instance of ViewModel with all fragments; used with viewModel line in onActivityCreated
 //    lateinit var viewModel: UserDataViewModel
+
+    // declare a ref to viewmodel instance and then initialize it with delegate
     // use a property delegate to init class;
     // use viewModels with fragment or activityViewModels with an activity like NavigationActivity (this app)
     private val viewModel by activityViewModels<UserDataViewModel>()
@@ -69,6 +72,7 @@ class LoginFragment : Fragment() {
      */
 //    override fun onActivityCreated(savedInstanceState: Bundle?) {
 //        super.onActivityCreated(savedInstanceState)
+            // initialize ref to viewmodel instance
 ////        viewModel = ViewModelProvider(requireActivity()).get(UserDataViewModel::class.java)
 //    }
 
@@ -191,9 +195,6 @@ class LoginFragment : Fragment() {
 //                            .make(signInButton, getString(R.string.login_verified),
 //                                  Snackbar.LENGTH_SHORT)
 //                            .show()
-//                findNavController().navigate(
-//                    R.id.action_login2main,
-//                    bundleOf("userEmail" to emailStr)
                 return true
             }
         }

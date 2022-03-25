@@ -46,9 +46,15 @@ Layouts are set up with container classes (children of `ViewGroup`) that contain
 
 With the LinearLayout you can set the layout_weight attribute for all children to say how much of the screen they will fill (widgets and containers). When you do this the layout_height must be set to 0dp for vertical layout and layout_width set to 0dp for horizontal layout for this to work. You might also use a container layout class within this layout for more complex layouts.
 
-The UI of Android allows you to set themes, styles, and widget specific attributes. A theme applies widely across the app and can be assigned to the whole app or an activity. Theme attributes are semantic to allow easy changing of specific attributes, such as colorPrimary. You would then assign a color by listing a color value from a color xml file. Styles are normally assigned to a specific type of view, such as a Button. Styles allow you to extract common attribute values, maintain and change attributes by groups easier.
+Ideally you want to avoid setting anything but spatial relationships in layout XML files. The UI of Android allows you to set themes, styles, and widget specific attributes. 
 
-Both themes and styles allow inheritance. This allows you to define common attributes at a parent theme or style, change just a few things, and have a theme/style for a certain Android version numbers with new features and allow older phones to use parent style attributes only.
+A **theme** applies widely across the app and can be assigned to the whole application, activity (fragments too?), or group of widgets. Theme attributes are semantic to allow easy changing of specific attributes, such as colorPrimary. You would then assign a color by listing a color value from a color xml file. Use a theme by setting it in the manifest file with the `android:theme="@style/MyTheme"` attribute. Using a theme with any widget will set that theme for all the same widget types in the app.
+
+**Styles** are normally assigned to a specific widget, such as a Button. They allow you to extract common attribute values, making the maintenance and change of attributes by groups of the same type easier. Style and themes both use the `<style>` tag in XML.
+
+See Android Material Design to know what semantic color names of themes, etc., are used in specific places such as the status bar.
+
+Both themes and styles allow inheritance.  This allows you to define common attributes at a parent theme or style, change just a few things, and have a theme/style for a certain Android version numbers with new features and allow older phones to use parent style attributes only.
 
 You can change the appearance of a view based on its state. A pressed button changing its image background, for example.
 
