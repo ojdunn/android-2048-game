@@ -78,6 +78,8 @@ A mobile backend as a service (MBaaS), it provides user management, database sto
 
 You can use **Firestore** for a database. Firestore stores data as collections an documents. The documents are a little like a row but they are unstructured and require no template. A collection contains documents, but a document may hold a ref to a subcollection. The collection itself can't hold a direct ref to another collection. Finally, a document can't hold a ref to a subdoc.
 
+Add the needed SDJ
+
 #### Threads
 
 A main thread is used for user interface. Other threads are used to fetch data, for example. This allows a user to continue using the app while data is loading. 
