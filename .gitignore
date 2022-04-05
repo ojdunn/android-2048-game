@@ -15,3 +15,4 @@
 local.properties
 /.idea/inspectionProfiles/Project_Default.xml
 /app/src/main/res/drawable/dpad_up.xml
+/secret.properties

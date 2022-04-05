@@ -25,10 +25,12 @@ Should use <80 views (currently 81), compound drawables can help? (performance)
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.5"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/transparent_box"
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/main_message"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/black"
+        android:textColor="@color/dark_yellow_a100_2"
         android:textStyle="bold" />
 
     <!--android:layout_marginTop="140dp"-->

@@ -8,13 +8,14 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 
 /**
- *
+ * Activity to host the navigation controller that uses a navigation graph described through its
+ * XML file, the navigation layout, an action bar.
  */
 class NavigationActivity : AppCompatActivity() {
     private lateinit var appBarConfig: AppBarConfiguration
 
     /**
-     *
+     * Set up the app bar from the navigation controller graph to be used with the nav controller.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

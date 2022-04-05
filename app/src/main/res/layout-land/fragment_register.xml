@@ -12,11 +12,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:alpha="1.0"
+        android:background="@drawable/transparent_box"
         android:fontFamily="sans-serif"
         android:text="@string/app_name"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/dark_yellow_a100_2"
         android:textSize="60sp"
         android:textStyle="bold"
         android:typeface="sans"
@@ -29,14 +30,19 @@
 
     <TextView
         android:id="@+id/register_message"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/transparent_box"
+        android:gravity="center_horizontal"
         android:text="@string/register_your_email"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/dark_yellow_a100_2"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/edit_text_email_register"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/game_title_text_register"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/game_title_text_register"
         app:layout_constraintTop_toBottomOf="@+id/game_title_text_register" />
 
     <EditText

@@ -57,7 +57,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        // Inflate (convert layout to view) the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
@@ -86,6 +86,10 @@ class LoginFragment : Fragment() {
         val startFOB = view.findViewById<FloatingActionButton>(R.id.floatingActionButtonStart)
         val signInButton = view.findViewById<Button>(R.id.signInButton)
         val registerButton = view.findViewById<Button>(R.id.registerButton)
+
+        // init fields for testing
+        email.text.insert(0, "user@test.com")
+        password.text.insert(0, "2048")
 
         // Set onClick(v: View?) function for button view generated click events.
         // This works because OnClickListener interface only has one method.

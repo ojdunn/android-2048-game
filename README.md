@@ -60,7 +60,39 @@ You can change the appearance of a view based on its state. A pressed button cha
 
 There is an attribute hierarchy of what a final attribute value will be depending on how it was assigned. Make note of it when assigning attributes multiple ways if you get unexpected results.
 
+`CoordinatorLayout` and its child classes can be used to produce advanced behavior such as buttons dissappearing while scrolling down and a View folding gradually up to nothing as you scroll down.
+
+#### Handling data
+
+`RecyclerView` is useful for displaying large amounts of data. Views are reused and put into a pool as data is fetched and discarded while scrolling. To show items in the list view you need to use the RecyclerView.Adaptor class. The adaptor uses the data source that is to be displayed in a certain way. Some other children classes of RecyclerView are also used for caching views (ViewHolder) and controlling the layout (LayoutManager) of the list items.
+
+A number of backend services are available which privide authentication / user management, push notifications, datastore, social media integration, and app analytics through a SDK for Android. The SDKs often provide client-side APIs to services. The main benefits of backend as a service is the ability to scale easily, no need of your own server-side development, and speed of development. Some services are free until you reach a certain scale. The cons include dependence on a third party.
+
+One backend service for developers is Google [Firebase](#Firebase).
+
+Another option is to create your own server-side management of the mentioned services. The pros include having full control to custimize it to fit your app exactly. The cons include cost (compare costs and anticipated costs with growth).
+
+### Firebase
+
+A mobile backend as a service (MBaaS), it provides user management, database storage in the cloud, and more.
+
+You can use **Firestore** for a database. Firestore stores data as collections an documents. The documents are a little like a row but they are unstructured and require no template. A collection contains documents, but a document may hold a ref to a subcollection. The collection itself can't hold a direct ref to another collection. Finally, a document can't hold a ref to a subdoc.
+
+#### Threads
+
+A main thread is used for user interface. Other threads are used to fetch data, for example. This allows a user to continue using the app while data is loading. 
+
 #### Libraries
+
+You can use first and third-party libraries. With Gradle, third-party libraries are declared as compile-time and run-time dependent or runtime dependent only.
+
+You may run into a conflict of library dependencies. This fix this, usually you would only use the latest version of a support library. Use the Gradle dependency tool to find out which library causes the conflict. Then you can exclude the older library dependency of a library similar to below:
+
+```
+implementation ('com.firebaseui:firebase-ui-storage:0.6.0', {
+    exclude group: 'com.android.support', module: 'palette-v7'
+    })
+```
 
 ##### Architecture Components
 
@@ -85,8 +117,6 @@ Allows data binding. This can be used to set up a Model-View-Viewmodel (MVVM).
 ### Kotlin
 
 Developed by JetBrains and officially endorsed by Google for Android Development, Kotlin compiles into Java bytecode for use on a JVM. It also works with Java code within the same and other files of a compiled project. Any Java libraries supported by Android should work with Kotlin. In addition, old Java code can be translated to Kotlin by Android Studio. 
-
-### Firebase
 
 ## Code plans
 

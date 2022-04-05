@@ -58,6 +58,11 @@ class RegisterFragment : Fragment() {
         val password =  view.findViewById<EditText>(R.id.enter_pass_register)
         val passwordConfirm =  view.findViewById<EditText>(R.id.confirm_pass_register)
 
+        // init fields for testing
+        email.text.insert(0, "user@test.com")
+        password.text.insert(0, "2048")
+        passwordConfirm.text.insert(0, "2048")
+
         registerFOB.setOnClickListener { _ ->   // may start lambda with (var_1, ..., var_n) -> or leave out if no parameter
             // first check for valid email and password
             val emailStr = email.text.toString()

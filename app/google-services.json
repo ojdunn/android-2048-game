@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "875409551603",
+    "project_id": "numberslidegame",
+    "storage_bucket": "numberslidegame.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875409551603:android:abf4b8f78132fbfb3b8786",
+        "android_client_info": {
+          "package_name": "com.owenjdunn.game2048"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875409551603-t8gddob6oolrj5kb168cliaog90bul3c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.owenjdunn.game2048",
+            "certificate_hash": "ee7f6dc7e9a0dac738847bff6208d0d493b11692"
+          }
+        },
+        {
+          "client_id": "875409551603-6l75b6bdthlv34alh3qe6ebscuqhn06t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkyglFadHbYi7niWMihjjJ63hYNnNx4qY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875409551603-6l75b6bdthlv34alh3qe6ebscuqhn06t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
