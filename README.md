@@ -78,7 +78,9 @@ A mobile backend as a service (MBaaS), it provides user management, database sto
 
 You can use **Firestore** for a database. Firestore stores data as collections an documents. The documents are a little like a row but they are unstructured and require no template. A collection contains documents, but a document may hold a ref to a subcollection. The collection itself can't hold a direct ref to another collection. Finally, a document can't hold a ref to a subdoc.
 
-Add the needed SDJ
+To add Firebase to an app first add the needed SDK in the Gradle files, setup app connection on the Firebase website, add google-services.json file to app directory.
+
+See Google documentation for different services such as Authentication, database.
 
 #### Threads
 
@@ -133,7 +135,9 @@ A **Model-View-Viewmodel (MVVM)** architecture may work best with Android. It wa
 ![MVVM Diagram](./MVVM.PNG "MVVM Diagram")
 <br>*Figure 1: MVVM Diagram, an architecture well suited to Android; Source: Mobile Application Development, 2nd, Engelsma*
 
-In the data binding process, the view subscribes to a data stream produced by the viewmodel. The view also displays data to the UI and captures user UI actions. The viewmodel does not need a reference to the view ("Observer" pattern) and it handles the UI data. The view is notified in this way of any data changes. 
+In the data binding process, the view subscribes to a data stream produced by the viewmodel. The view also displays data to the UI and captures user UI actions. The viewmodel does not need a reference to the view ("Observer" pattern) and it handles the UI data. Only the viewmodel has a reference to the model. The view is notified in this way of any data changes. 
+
+The LiveData class allows this upward communication (View -> ViewModel -> Model) using the Observer pattern. In this pattern the View subscribes to the LiveData class to automatically update values in the UI.
 
 The app is to consist of a welcome screen, a register account screen, an options screen, and a game screen. It is recommended by experts to use the Jetpack `navigation` library to create an app with one activity, a navigation graph, and a navigation controller to transition between screens. Each screen would be written as a single `Fragment` class hosted by a single `Activity` class. Fragments all have independent lifecycles like Activities and similar hook methods. Some additional hook methods of Fragments include onCreateView(), onAttach(), onDetach(), onDestroyView(). They use layout files like Activities.
 
@@ -145,7 +149,7 @@ The model handles application logic and data, notifies the viewmodel of changes,
 
 #### ViewModel
 
-The Jetpack `lifecycle` package includes a `ViewModel` class. This class uses the `LiveData` generic class (or Mutable prefix type) to handle data such as a user email and password. The different fragments can store and retrieve data from the viewmodel. Activities and fragments must use the Jetpack factory class to access the viewmodel.
+The Jetpack `lifecycle` package includes a `ViewModel` class. This class uses the `LiveData` generic class (or Mutable prefix type) to handle data such as a user email and password. The different fragments (Views) can store and retrieve data from the viewmodel by having a reference to it. Activities and fragments must use the Jetpack factory class to access the viewmodel.
 
 #### Passive view 
 

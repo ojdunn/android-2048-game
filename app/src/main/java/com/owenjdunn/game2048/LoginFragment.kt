@@ -86,10 +86,12 @@ class LoginFragment : Fragment() {
         val startFOB = view.findViewById<FloatingActionButton>(R.id.floatingActionButtonStart)
         val signInButton = view.findViewById<Button>(R.id.signInButton)
         val registerButton = view.findViewById<Button>(R.id.registerButton)
+        // widget animation from xml file; need this.context to refer to fragment associated with
+        val shake = AnimationUtils.loadAnimation(this.context, R.anim.shake)
 
         // init fields for testing
-        email.text.insert(0, "user@test.com")
-        password.text.insert(0, "2048")
+        email.text.insert(0, "dunnow@mail.gvsu.edu")
+        password.text.insert(0, "Merle123")
 
         // Set onClick(v: View?) function for button view generated click events.
         // This works because OnClickListener interface only has one method.
@@ -98,17 +100,21 @@ class LoginFragment : Fragment() {
         startFOB.setOnClickListener { _ ->   // may start lambda with (var1, ..., varn) -> or leave out if no parameter
             val emailStr = email.text.toString()
             val passStr = password.text.toString()
-            val shake = AnimationUtils.loadAnimation(this.context, R.anim.shake)
 
             if (emailStr.isNotBlank()) {
-                if (isValidLogin(email, emailStr, passStr)) { // goto main game UI with passed email data
-                    viewModel.userId.value = emailStr   // store data into viewmodel
-                    findNavController().navigate(R.id.action_login2main)
-                } else {    // invalid email or password; give some visual feedback
-                    startFOB.startAnimation(shake)
+                if (isValidLoginData(email, emailStr, passStr)) {   // is data valid?
+                    // attempt to sign in to Firebase with data
+                    viewModel.signInWithEmailAndPassword(emailStr, passStr)
+                    viewModel.userId.observe(viewLifecycleOwner) { uid ->
+                        if (uid != null) {
+                            findNavController().navigate(R.id.action_login2main)
+                        } else {
+                            startFOB.startAnimation(shake)
+                        }
+                    }
                 }
             } else {  // play as guest in main game UI with local data use
-                viewModel.userId.value = "Guest" // store data into viewmodel
+//                viewModel.userId.value = "Guest" // store data into viewmodel
                 findNavController().navigate(R.id.action_login2main)
             }
         }
@@ -116,12 +122,16 @@ class LoginFragment : Fragment() {
         signInButton.setOnClickListener { _ ->
             val emailStr = email.text.toString()
             val passStr = password.text.toString()
-            // widget animation from xml file; need this.context to refer to fragment associated with
-            val shake = AnimationUtils.loadAnimation(this.context, R.anim.shake)
 
-            if (isValidLogin(email, emailStr, passStr)) { // goto main game UI with passed email data))
-                viewModel.userId.value = emailStr
-                findNavController().navigate(R.id.action_login2main)
+            if (isValidLoginData(email, emailStr, passStr)) {
+                viewModel.signInWithEmailAndPassword(emailStr, passStr)
+                viewModel.userId.observe(viewLifecycleOwner) { uid ->
+                    if (uid != null) {
+                        findNavController().navigate(R.id.action_login2main)
+                    } else {
+                        signInButton.startAnimation(shake)
+                    }
+                }
             } else {    // invalid login data, give some visual feedback
                 signInButton.startAnimation(shake)
             }
@@ -173,24 +183,30 @@ class LoginFragment : Fragment() {
     /**
      * Check if login data is valid. A layout view reference is passed to give Snackbar messages
      * a layout reference.
+     *
+     * Checks if an email is given, if the email fits a regex pattern and if the password matches a
+     * hardcoded value.
+     * @param view - a view to find the parent view from
+     * @param emailStr - user entered email to [EditText]
+     * @param passStr - user entered password to [EditText]
      */
-    private fun isValidLogin(email: EditText, emailStr: String, passStr: String): Boolean {
+    private fun isValidLoginData(view: EditText, emailStr: String, passStr: String): Boolean {
         when {  // 3 invalid conditions to check for first before 'else' acceptance
             emailStr.isEmpty() -> {
                 Snackbar
-                        .make(email, getString(R.string.email_required), Snackbar.LENGTH_LONG)
+                        .make(view, getString(R.string.email_required), Snackbar.LENGTH_LONG)
                         .show()
                 return false
             }
             !emailRegex.matcher(emailStr).find() -> {
                 Snackbar
-                        .make(email, getString(R.string.invalid_email), Snackbar.LENGTH_LONG)
+                        .make(view, getString(R.string.invalid_email), Snackbar.LENGTH_LONG)
                         .show()
                 return false
             }
-            !passStr.contains("2048") -> {
+            !passStr.contains("Merle123") -> {
                 Snackbar
-                        .make(email, getString(R.string.invalid_password), Snackbar.LENGTH_LONG)
+                        .make(view, getString(R.string.invalid_password), Snackbar.LENGTH_LONG)
                         .show()
                 return false
             }

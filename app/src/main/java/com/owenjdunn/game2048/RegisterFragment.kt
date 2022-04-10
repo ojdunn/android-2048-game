@@ -101,11 +101,16 @@ class RegisterFragment : Fragment() {
 //                            .make(signInButton, getString(R.string.login_verified),
 //                                  Snackbar.LENGTH_SHORT)
 //                            .show()
-                    // Pass user email to main UI
-
-                    // goto main game UI with account data use; pass user login data
-                    viewModel.userId.value = emailStr   // store data into viewmodel
-                    findNavController().navigate(R.id.action_register2main)
+                    // use ViewModel to attempt to create a new user for Firebase
+                    viewModel.signUpWithEmailAndPassword(emailStr, passStr)
+                    viewModel.userId.observe(viewLifecycleOwner) { uid ->
+                        if (uid != null) {
+                            // back to login screen, where user can log in and play
+                            findNavController().popBackStack()
+                        } else {
+                            registerFOB.startAnimation(shake)
+                        }
+                    }
                 }
             }
         }

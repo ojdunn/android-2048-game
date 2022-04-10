@@ -72,6 +72,9 @@ class MainFragment : Fragment() {
             val userId = view?.findViewById<TextView>(R.id.user_id)
             userId?.text = z    // update TextView text
         }
+
+        // set user text to Guest if not logged in
+//        view?.findViewById<TextView>(R.id.user_id)?.text ?:
     }
 
     /**
