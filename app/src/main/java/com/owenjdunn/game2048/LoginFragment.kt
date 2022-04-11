@@ -83,7 +83,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val email = view.findViewById<EditText>(R.id.editTextEmailAddress)
         val password = view.findViewById<EditText>(R.id.editTextTextPassword)
-        val startFOB = view.findViewById<FloatingActionButton>(R.id.floatingActionButtonStart)
+        val startFAB = view.findViewById<FloatingActionButton>(R.id.floatingActionButtonStart)
         val signInButton = view.findViewById<Button>(R.id.signInButton)
         val registerButton = view.findViewById<Button>(R.id.registerButton)
         // widget animation from xml file; need this.context to refer to fragment associated with
@@ -91,25 +91,31 @@ class LoginFragment : Fragment() {
 
         // init fields for testing
         email.text.insert(0, "dunnow@mail.gvsu.edu")
-        password.text.insert(0, "Merle123")
+        password.text.insert(0, "123456")
+
+        // auto move to main screen if user is logged in
+        viewModel.userId.observe(viewLifecycleOwner) {
+            if (it != null) findNavController().navigate(R.id.action_login2main)
+        }
 
         // Set onClick(v: View?) function for button view generated click events.
         // This works because OnClickListener interface only has one method.
         // _ represents unused parameter by lambda function
         // launch a standard game on new activity
-        startFOB.setOnClickListener { _ ->   // may start lambda with (var1, ..., varn) -> or leave out if no parameter
+        startFAB.setOnClickListener { _ ->   // may start lambda with (var1, ..., varn) -> or leave out if no parameter
             val emailStr = email.text.toString()
             val passStr = password.text.toString()
 
             if (emailStr.isNotBlank()) {
                 if (isValidLoginData(email, emailStr, passStr)) {   // is data valid?
                     // attempt to sign in to Firebase with data
-                    viewModel.signInWithEmailAndPassword(emailStr, passStr)
+                    // view passed to give context
+                    viewModel.signInWithEmailAndPassword(view, emailStr, passStr)
                     viewModel.userId.observe(viewLifecycleOwner) { uid ->
                         if (uid != null) {
                             findNavController().navigate(R.id.action_login2main)
                         } else {
-                            startFOB.startAnimation(shake)
+                            startFAB.startAnimation(shake)
                         }
                     }
                 }
@@ -124,7 +130,7 @@ class LoginFragment : Fragment() {
             val passStr = password.text.toString()
 
             if (isValidLoginData(email, emailStr, passStr)) {
-                viewModel.signInWithEmailAndPassword(emailStr, passStr)
+                viewModel.signInWithEmailAndPassword(email, emailStr, passStr)
                 viewModel.userId.observe(viewLifecycleOwner) { uid ->
                     if (uid != null) {
                         findNavController().navigate(R.id.action_login2main)
@@ -204,9 +210,9 @@ class LoginFragment : Fragment() {
                         .show()
                 return false
             }
-            !passStr.contains("Merle123") -> {
+            passStr.length < 6 -> {     // firebase requires 6 or more chars
                 Snackbar
-                        .make(view, getString(R.string.invalid_password), Snackbar.LENGTH_LONG)
+                        .make(view, getString(R.string.password_length_fail), Snackbar.LENGTH_LONG)
                         .show()
                 return false
             }

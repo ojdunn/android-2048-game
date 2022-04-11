@@ -151,9 +151,13 @@ class MainFragment : Fragment() {
 
     /**
      * Called when an option item is selected and what is done when this happens.
+     *
+     * @param item - menu item user touched
+     * @return Boolean - is menu item id action found?
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_logout) {    // goto a new instance of login screen, TODO logout of user account, data recording
+        if (item.itemId == R.id.action_logout) {    // goto a new instance of login screen, log out of user account
+            viewModel.signOut()
             findNavController().navigate(R.id.action_main2login)
             return true
         }

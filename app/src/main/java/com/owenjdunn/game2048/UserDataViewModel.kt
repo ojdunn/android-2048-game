@@ -1,5 +1,6 @@
 package com.owenjdunn.game2048
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -9,7 +10,9 @@ import androidx.lifecycle.ViewModel
  * ViewModel and Firebase backend.
  */
 class UserDataViewModel : ViewModel() {
-    lateinit var userId: MutableLiveData<String?> // the backing store for property userId
+    var userId = MutableLiveData<String?>() // the backing store for property userId
+//    lateinit var userId: MutableLiveData<String?> // the backing store for property userId
+//    lateinit var userName: MutableLiveData<String?> // display name for user
     private val repo = Game2048Repository() // repository object
 
 //    init {
@@ -23,12 +26,13 @@ class UserDataViewModel : ViewModel() {
      * The [UserDataViewModel.userId] parameter is set based on the results of the attempted
      * authentication.
      *
+     * @param view - any view from current context used for a Snackbar message in case of error
      * @param email
      * @param password
      * @return uidResponse - returns uid if verified, null if not
      */
-    fun signInWithEmailAndPassword(email: String, password: String) {
-        userId = repo.firebaseSignInWithEmail(email, password)
+    fun signInWithEmailAndPassword(view: View, email: String, password: String) {
+        userId = repo.firebaseSignInWithEmail(view, email, password)
     }
 
     /**
@@ -38,11 +42,30 @@ class UserDataViewModel : ViewModel() {
      * The [UserDataViewModel.userId] parameter is set based on the results of the attempted
      * authentication.
      *
+     * @param view - any view from current context
      * @param email
      * @param password
      * @return uidResponse - returns uid if verified, null if not
      */
-    fun signUpWithEmailAndPassword(email: String, password: String) {
-        userId = repo.firebaseSignUpWithEmail(email, password)
+    fun signUpWithEmailAndPassword(view: View, email: String, password: String) {
+        userId = repo.firebaseSignUpWithEmail(view, email, password)
+    }
+
+    /**
+     * Check if signed in. Update UI in Passive View if logged in.
+     *
+     * Calls [Game2048Repository.firebaseIsUserSignedIn].
+     *
+     * @return Boolean - is user signed in?
+     */
+    fun isUserSignedIn() : Boolean = repo.firebaseIsUserSignedIn()
+
+    /**
+     * Sign a user out of their account. The repository class is used to sign the user out. The user
+     * id is set to null.
+     */
+    fun signOut() {
+        repo.firebaseSignOut()
+        userId.value = null
     }
 }

@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import java.util.regex.Pattern
 
-// TODO: Rename parameter arguments, choose names that match
+// Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 //private const val ARG_PARAM1 = "param1"
 //private const val ARG_PARAM2 = "param2"
@@ -24,7 +24,7 @@ import java.util.regex.Pattern
  * create an instance of this fragment.
  */
 class RegisterFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+    // Rename and change types of parameters
 //    private var param1: String? = null
 //    private var param2: String? = null
     private val emailRegex = Pattern.compile(
@@ -53,17 +53,17 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val registerFOB= view.findViewById<FloatingActionButton>(R.id.register_fob)
+        val registerFAB= view.findViewById<FloatingActionButton>(R.id.register_fob)
         val email = view.findViewById<EditText>(R.id.edit_text_email_register)
         val password =  view.findViewById<EditText>(R.id.enter_pass_register)
         val passwordConfirm =  view.findViewById<EditText>(R.id.confirm_pass_register)
 
         // init fields for testing
-        email.text.insert(0, "user@test.com")
-        password.text.insert(0, "2048")
-        passwordConfirm.text.insert(0, "2048")
+//        email.text.insert(0, "user@test.com")
+//        password.text.insert(0, "123456")
+//        passwordConfirm.text.insert(0, "123456")
 
-        registerFOB.setOnClickListener { _ ->   // may start lambda with (var_1, ..., var_n) -> or leave out if no parameter
+        registerFAB.setOnClickListener { _ ->   // may start lambda with (var_1, ..., var_n) -> or leave out if no parameter
             // first check for valid email and password
             val emailStr = email.text.toString()
             val passStr = password.text.toString()
@@ -83,32 +83,35 @@ class RegisterFragment : Fragment() {
                                   Snackbar.LENGTH_LONG)
                             .show()
                 passStr != passConfirmStr -> {            // strings are not the same?
-                    registerFOB.startAnimation(shake)
+                    registerFAB.startAnimation(shake)
                     Snackbar
                             .make(password, getString(R.string.verify_password_fail),
                                   Snackbar.LENGTH_LONG)
                             .show()
                 }
-//                passStr  -> {    // check if pass meets criteria TODO
+                passStr.length < 6 -> {    // Firebase requires >= 6 chars,
+                    Snackbar
+                            .make(view, getString(R.string.password_length_fail),
+                                  Snackbar.LENGTH_LONG)
+                            .show()
+                }
+//                passStr  -> {    // check if pass meets criteria
 //                    registerFOB.startAnimation(shake)
 //                        Snackbar
 //                                .make(password, getString(R.string.invalid_password),
 //                                      Snackbar.LENGTH_LONG)
 //                                .show()
 //                }
-                else -> {   // save email and pass info TODO Firebase?
-//                    Snackbar
-//                            .make(signInButton, getString(R.string.login_verified),
-//                                  Snackbar.LENGTH_SHORT)
-//                            .show()
+                else -> {   // save email and pass info
                     // use ViewModel to attempt to create a new user for Firebase
-                    viewModel.signUpWithEmailAndPassword(emailStr, passStr)
+                    // pass a view for first arg to give context to allow Snackbar message
+                    viewModel.signUpWithEmailAndPassword(email, emailStr, passStr)
                     viewModel.userId.observe(viewLifecycleOwner) { uid ->
                         if (uid != null) {
                             // back to login screen, where user can log in and play
                             findNavController().popBackStack()
                         } else {
-                            registerFOB.startAnimation(shake)
+                            registerFAB.startAnimation(shake)
                         }
                     }
                 }
