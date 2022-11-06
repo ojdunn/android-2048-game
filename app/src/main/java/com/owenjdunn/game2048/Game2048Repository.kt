@@ -7,7 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.lang.Exception
 
@@ -19,6 +22,9 @@ import java.lang.Exception
  */
 class Game2048Repository {
     private var auth: FirebaseAuth = Firebase.auth   // create shared instance of auth object
+    private var user: FirebaseUser? = null // user profile class related to user's Firebase database data
+    private val dbStore = Firebase.firestore    // ref to Firebase Firestore database instance
+    private var docRef: DocumentReference? = null   // ref to top doc assoc with current user
 
     /**
      * Use an email and password to attempt authentication on Firebase to sign in a user.
@@ -32,21 +38,26 @@ class Game2048Repository {
      * @return uidResponse - returns uid as value of [MutableLiveData] if verified, null as value
      * if not verified
      */
-    fun firebaseSignInWithEmail(view: View, email: String, password: String) : MutableLiveData<String?> {
+    fun firebaseSignInWithEmail(view: View, email: String, password: String) :
+            MutableLiveData<String?> {
         val uidResponse = MutableLiveData<String?>()
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {    // sign in success, update UI
                     Log.d(TAG, "firebaseSignInWithEmail:success")
-                    // set value to unique uid
-                    uidResponse.value = auth.currentUser?.uid
+                    // save current user profile class and save uid value to uidResponse
+                    user = auth.currentUser?.also {
+                        uidResponse.value = it.uid
+                        docRef = dbStore.collection("users").document(it.uid)
+                    }
                 }
                 else {    // sign in fail
                     Log.w(TAG, "firebaseSignInWithEmail:failed", task.exception)
                     Snackbar
-                        .make(view, R.string.firebase_auth_failed, Snackbar.LENGTH_LONG)
-                        .show()
+                            .make(view, R.string.firebase_auth_failed, Snackbar.LENGTH_LONG)
+                            .show()
+                    user = null
                     uidResponse.value = null
                 }
             }
@@ -75,15 +86,11 @@ class Game2048Repository {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) { // created account and sign in success, update UI
                     Log.d(TAG, "firebaseSignUpWithEmail:success")
+                    user = auth.currentUser
                     // set value to unique uid
-                    with(auth.currentUser) {
-                        uidResponse.value = this?.uid
-                    }
+                    uidResponse.value = user?.uid
                 }
                 else {  // sign up fail
-//                    Snackbar
-//                            .make(view, R.string.firebase_auth_failed, Snackbar.LENGTH_LONG)
-//                            .show()
                     try {
                         throw task.exception!!
                     } catch (e: FirebaseAuthWeakPasswordException) {    // tell user why password rejected
@@ -97,6 +104,7 @@ class Game2048Repository {
                     } finally {
                         Log.w(TAG, "firebaseSignUpWithEmail:failure", task.exception)
                     }
+                    user = null
                     uidResponse.value = null
                 }
             }
@@ -112,9 +120,47 @@ class Game2048Repository {
     fun firebaseIsUserSignedIn() : Boolean = auth.currentUser != null
 
     /**
-     * Sign a user out of Firebase.
+     * Sign a user out of Firebase. Clear current user data after sign out.
      */
     fun firebaseSignOut() {
         auth.signOut()
+        user = null
+    }
+
+    /**
+     * Save user data to Firebase Firestore. Add if no data or update if data already present.
+     *
+     * @param s - user game data
+     */
+    fun firebaseUpdateUserData(s: UserData) {
+        val userData = hashMapOf(
+            "uid"  to user?.uid,    // key
+            "highScore" to s.highScore,
+            "wins" to s.wins,
+            "losses" to s.losses,
+            "totalMoves" to s.totalMoves,
+            "timePlayed" to s.timePlayed
+        )
+        // create new document with uid as key
+        if (user != null) {
+            dbStore.collection("users")
+                .add(userData)
+                .addOnSuccessListener { docRef ->
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${docRef.id}")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
+        }
+        // add to uid document with their game stats
+//        docRef?.update(gData as Map<String, Any>)
+//        if () {      // Add data if none present
+//            docRef?.collection("gameData")?.let {
+//                it.add(gData)
+//            }
+//        }
+//        else {      // Update data if present
+//
+//        }
     }
 }

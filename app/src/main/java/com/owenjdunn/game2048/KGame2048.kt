@@ -7,11 +7,18 @@ import kotlin.random.Random
 /**
  * Extends the Application class. It's the best place for making one-time calls in its onCreate()
  * method.
+ *
+ * May convert old java code to Kotlin. Use this file for that.
  */
-class Game2048: Application() {
-    // random seed: System.currentTimeMillis()
-    private val random: Random = Random(0)  // use Kotlin random class (better than java.util); seed set to 0 for testing
+class KGame2048(/*private val rows: Int = 6,
+               private val cols: Int = 6,
+               private val board: Array<Int> = Array(size = rows * cols){0},    // array values init all 0
+               private val boardCells: Array<Cell2048> = ,     // TODO: use one or other?
+               private val winVal: Int = 2048,  // winning game cell value*/
+): Application() {
 
+    private val random: Random = Random(0)  // use Kotlin random class (better than java.util); seed set to 0 for testing; random seed: System.currentTimeMillis()
+    
     override fun onCreate() {
         super.onCreate()
         JodaTimeAndroid.init(this)    // init a good api for date data

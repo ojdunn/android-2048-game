@@ -4,7 +4,9 @@ A clone of the popular 2048 number sliding game. Move a grid of even numbers to 
 
 The game starts with a few random cells filled with even numbers. The player makes a move by sliding the board left, right, up, or down. The numbers will then slide the respective direction. If a number collides with an equal number, the two numbers will sum into one cell towards the direction chosen. With each move one new number will randomly appear on a cell. The game is over when no more moves can be taken because the board is full or a winning sum of 2048 has been made in any cell.
 
-Use of API 32, supporting back to API 29, using Kotlin.
+Use of API 32, supporting back to API 29, using Kotlin, Firebase backend.
+
+The code itself is well documented as well.
 
 In progress.
 
@@ -76,7 +78,7 @@ Another option is to create your own server-side management of the mentioned ser
 
 A mobile backend as a service (MBaaS), it provides user management, database storage in the cloud, and more.
 
-You can use **Firestore** for a database. Firestore stores data as collections an documents. The documents are a little like a row but they are unstructured and require no template. A collection contains documents, but a document may hold a ref to a subcollection. The collection itself can't hold a direct ref to another collection. Finally, a document can't hold a ref to a subdoc.
+You can use **Firestore** for a database. Firestore stores data as collections and documents. The documents are a little like a row but they are unstructured and require no template. A collection contains documents, but a document may hold a ref to a subcollection. The collection itself can't hold a direct ref to another collection. Finally, a document can't hold a ref to a subdoc.
 
 To add Firebase to an app first add the needed SDK in the Gradle files, setup app connection on the Firebase website, add google-services.json file to app directory.
 
@@ -165,12 +167,14 @@ The game screen itself features a grid of squares with numerical text. A FAB, di
 
 The game board can be created using Android layouts and widgets. One solution is to use TextView widgets with TableLayout and TableRow layouts. TableLayout doesn't support borders, so a rectangle can be drawn in each cell and a background color can be set to better see the cell borders. You should be able to programmatically add rows and cells of TextView during the game to change board size for different screen sizes and custom player choice. Keep track of each cell of TextView added to the board to change its text value as the game logic finds new cell values after each player move.
 
-
 ### Data
 
 If the player doesn't sign in local data will be used. If the player signs in remote data will overwrite local data. Local data will be written remotely before the player exits the app. [Firebase](#Firebase) might be used for this purpose.
 
+The Firestore database of Firebase will be used. At the top level, a collection of users (documents of the users collection) with one unique user ID per document to locate each user. The user ID is returned by Firebase Authentication after a user is created and can be found in the users section of Authentication.
+
 Registering an account will allow users to save their credentials to the cloud to allow the storage of their game data remotely. A game like this likely wouldn't need cloud storage unless connected to cloud game services, such as Google Play.
+
 ## Code overview
 
 The Jetpack library [navigation](#navigation) is used with a navigation controller, navigation graph xml, an navigation host fragment. A single navigation activity and its layout xml hosts different layouts, which are themselves managed through their respective layout xml and fragment class files. The navigation graph defines the activity stack behavior and allows type safe passing of data by bundling it in navigation controller **navigate** function calls.

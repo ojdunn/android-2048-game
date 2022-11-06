@@ -15,10 +15,20 @@
     <style name="BoardCell"> <!-- setTextAppearance(R.id) to switch -->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:text">2048</item>
+        <item name="android:text">0000</item> <!-- hack way of making all cells same size (unless value goes above 4 digits) -->
         <item name="android:background">@drawable/text_color0</item>
         <item name="android:gravity">center_horizontal|center_vertical</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">#FFFFFF</item> <!-- hack solution: make text same color as background for 0000 -->
+        <item name="android:textStyle">bold</item>
+        <item name="android:autoSizeTextType">uniform</item>
+    </style>
+    <style name="BoardCell1"> <!-- setTextAppearance(R.id) to switch -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:text">1</item> <!-- hack way of making all cells same size (unless value goes above 4 digits) -->
+        <item name="android:background">@drawable/text_color1</item>
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:textColor">#000000</item> <!-- hack solution: make text same color as background for 0000 -->
         <item name="android:textStyle">bold</item>
         <item name="android:autoSizeTextType">uniform</item>
     </style>

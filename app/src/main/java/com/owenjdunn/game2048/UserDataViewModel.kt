@@ -14,6 +14,12 @@ class UserDataViewModel : ViewModel() {
 //    lateinit var userId: MutableLiveData<String?> // the backing store for property userId
 //    lateinit var userName: MutableLiveData<String?> // display name for user
     private val repo = Game2048Repository() // repository object
+    // player game stats mutable live data
+    val highScore = MutableLiveData<Int>()
+    val wins = MutableLiveData<Int>()
+    val losses = MutableLiveData<Int>()
+    val timePlayed = MutableLiveData<Int>()
+    val totalMoves = MutableLiveData<Int>()
 
 //    init {
 //        userId.value = "Guest"  // init value if not logged in
@@ -67,5 +73,14 @@ class UserDataViewModel : ViewModel() {
     fun signOut() {
         repo.firebaseSignOut()
         userId.value = null
+    }
+
+    /**
+     * Add user statistics to database.
+     *
+     * @param d - user game statistics
+     */
+    fun updateUserStats(d: UserData) {
+        repo.firebaseUpdateUserData(d)
     }
 }
