@@ -28,8 +28,8 @@ class RegisterFragment : Fragment() {
 //    private var param1: String? = null
 //    private var param2: String? = null
     private val emailRegex = Pattern.compile(
-        "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}",
-        Pattern.CASE_INSENSITIVE)
+                       "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}",
+                             Pattern.CASE_INSENSITIVE)
     // use a property delegate to init viewmodel class instance or get shared ref to it if already init (this app)
     // use viewModels with fragment or activityViewModels with an activity like NavigationActivity (this app)
     private val viewModel by activityViewModels<UserDataViewModel>()
@@ -42,6 +42,9 @@ class RegisterFragment : Fragment() {
 //        }
 //    }
 
+    /**
+     * Inflate the layout for the register fragment.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,13 +53,16 @@ class RegisterFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
+    /**
+     *  Allow the user to create a new account by entering an email, password.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val registerFAB= view.findViewById<FloatingActionButton>(R.id.register_fob)
+        val registerFAB = view.findViewById<FloatingActionButton>(R.id.register_fob)
         val email = view.findViewById<EditText>(R.id.edit_text_email_register)
-        val password =  view.findViewById<EditText>(R.id.enter_pass_register)
-        val passwordConfirm =  view.findViewById<EditText>(R.id.confirm_pass_register)
+        val password = view.findViewById<EditText>(R.id.enter_pass_register)
+        val passwordConfirm = view.findViewById<EditText>(R.id.confirm_pass_register)
 
         // init fields for testing
 //        email.text.insert(0, "user@test.com")
@@ -73,32 +79,23 @@ class RegisterFragment : Fragment() {
 
             when {  // 3 invalid conditions to check for first before 'else' acceptance
                 emailStr.isEmpty() ->
-                    Snackbar
-                            .make(email, getString(R.string.invalid_login),
-                                  Snackbar.LENGTH_LONG)
+                    Snackbar.make(email, getString(R.string.invalid_login), Snackbar.LENGTH_LONG)
                             .show()
                 !emailRegex.matcher(emailStr).find() ->   // email doesn't fit regex pattern?
-                    Snackbar
-                            .make(email, getString(R.string.invalid_email_register),
-                                  Snackbar.LENGTH_LONG)
+                    Snackbar.make(email, getString(R.string.invalid_email_register), Snackbar.LENGTH_LONG)
                             .show()
                 passStr != passConfirmStr -> {            // strings are not the same?
                     registerFAB.startAnimation(shake)
-                    Snackbar
-                            .make(password, getString(R.string.verify_password_fail),
-                                  Snackbar.LENGTH_LONG)
+                    Snackbar.make(password, getString(R.string.verify_password_fail), Snackbar.LENGTH_LONG)
                             .show()
                 }
                 passStr.length < 6 -> {    // Firebase requires >= 6 chars,
-                    Snackbar
-                            .make(view, getString(R.string.password_length_fail),
-                                  Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, getString(R.string.password_length_fail), Snackbar.LENGTH_LONG)
                             .show()
                 }
 //                passStr  -> {    // check if pass meets criteria
 //                    registerFOB.startAnimation(shake)
-//                        Snackbar
-//                                .make(password, getString(R.string.invalid_password),
+//                        Snackbar.make(password, getString(R.string.invalid_password),
 //                                      Snackbar.LENGTH_LONG)
 //                                .show()
 //                }
@@ -108,7 +105,7 @@ class RegisterFragment : Fragment() {
                     viewModel.signUpWithEmailAndPassword(email, emailStr, passStr)
                     viewModel.userId.observe(viewLifecycleOwner) { uid ->
                         if (uid != null) {
-                            // back to login screen, where user can log in and play
+                            // back to login screen, where user can log in before play with new account
                             findNavController().popBackStack()
                         } else {
                             registerFAB.startAnimation(shake)

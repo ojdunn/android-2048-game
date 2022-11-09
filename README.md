@@ -1,14 +1,14 @@
 # 2048 Number Sliding Game for Android
 
-A clone of the popular 2048 number sliding game. Move a grid of even numbers to reach a sum of 2048. 
+A clone of the popular 2048 number sliding game. Move a grid of even numbers to reach a sum of 2048.
 
-The game starts with a few random cells filled with even numbers. The player makes a move by sliding the board left, right, up, or down. The numbers will then slide the respective direction. If a number collides with an equal number, the two numbers will sum into one cell towards the direction chosen. With each move one new number will randomly appear on a cell. The game is over when no more moves can be taken because the board is full or a winning sum of 2048 has been made in any cell.
+The game starts with a few random cells filled with even numbers. The player makes a move by sliding the board left, right, up, or down. The numbers will then slide the respective direction. If a number collides with an equal number, the two numbers will sum into one cell towards the direction chosen. With each move one new number will appear on a random cell. The game is over when no more moves can be taken because the board is full or a winning sum of 2048 has been made in any cell.
+
+As games are played all user data is saved while the application is open. User data includes number of email, wins, losses, and total moves. It is displayed at the top of the game screen.
 
 Use of API 32, supporting back to API 29, using Kotlin, Firebase backend.
 
 The code itself is well documented as well.
-
-In progress.
 
 ## Links
 
@@ -70,7 +70,7 @@ There is an attribute hierarchy of what a final attribute value will be dependin
 
 A number of backend services are available which privide authentication / user management, push notifications, datastore, social media integration, and app analytics through a SDK for Android. The SDKs often provide client-side APIs to services. The main benefits of backend as a service is the ability to scale easily, no need of your own server-side development, and speed of development. Some services are free until you reach a certain scale. The cons include dependence on a third party.
 
-One backend service for developers is Google [Firebase](#Firebase).
+One backend service for developers is Google [Firebase](#Firebase). It is used for this project to handle user log in. It could also be used to store user data.
 
 Another option is to create your own server-side management of the mentioned services. The pros include having full control to custimize it to fit your app exactly. The cons include cost (compare costs and anticipated costs with growth).
 
@@ -106,9 +106,9 @@ This is part of the Jetpack bundle. It includes ways to improve adherence to MVC
 
 ##### navigation
 
-This can be used to design an app with one Activity class consisting of a Fragment class for each screen/destination and a host Activity containing a navigation host fragment to control screen transitions.
+This can be used to design an app with one Activity class consisting of a Fragment class for each screen/destination and a host Activity containing a navigation host fragment to control screen transitions. This project is implemented using this technique.
 
-This library consists of a navigation graph xml file. It handle the activity stack automatically, allows type safe argument passing between screens, and more.
+This library consists of a navigation graph xml file to define screen transitions and behavior while doing so. It handles the activity stack automatically, allows type safe argument passing between screens, and more.
 
 The actions on the graph represent transitions between screens. They include some options to have desired behavior in the screen stack. The option *PopupTo* tells what screen to go to when the user hits back. The option *PopUpToInclusive* tells whether to pop the old instance of the destination screen when moving back. You may want to use this option when you have more than one action leading to the same screen.
 
@@ -123,6 +123,8 @@ Allows data binding. This can be used to set up a Model-View-Viewmodel (MVVM).
 ### Kotlin
 
 Developed by JetBrains and officially endorsed by Google for Android Development, Kotlin compiles into Java bytecode for use on a JVM. It also works with Java code within the same and other files of a compiled project. Any Java libraries supported by Android should work with Kotlin. In addition, old Java code can be translated to Kotlin by Android Studio. 
+
+In this project, an old java implementation of the model of mine (part of MVC used for that project: [link](https://github.com/ojdunn/2048-game)) for 2048 was re-used. 
 
 ## Code plans
 
@@ -163,15 +165,17 @@ The register screen allows a user to create a new account.
 
 The options screen allows the player to choose various game options such as winning score, difficulty, and board size. The device running the game can only display a certain sized grid of squares (height, width) with readable numbers. The maximum size needs to be calculated based on the phone screen dimensions, if this is possible to do. Otherwise, a sensible range of game board sizes will be set. Auto-sizing, calculation, other must be done to make sure the UX fits the screen.
 
-The game screen itself features a grid of squares with numerical text. A FAB, directional swipes, or tilting motions might be used to control the game. If possible, I will first implement a FAB with the four directions: left, right, up, and down.
+A range of 3 - 6 for the rows and columns should display and play a game properly within constraints for screen size, orientation of screen, text readibility, and android constraints. The game has trouble running if the number of views on screen reaches around 50. A solution to this is to create a single game board view or group of multiple cells per view instead of having each game cell be its own view.
 
-The game board can be created using Android layouts and widgets. One solution is to use TextView widgets with TableLayout and TableRow layouts. TableLayout doesn't support borders, so a rectangle can be drawn in each cell and a background color can be set to better see the cell borders. You should be able to programmatically add rows and cells of TextView during the game to change board size for different screen sizes and custom player choice. Keep track of each cell of TextView added to the board to change its text value as the game logic finds new cell values after each player move.
+The game screen itself features a grid of squares with numerical text. A FAB, directional swipes, or tilting motions might be used to control the game. I first implemented a direction pad with the four directions: left, right, up, and down to play. The other options might be added later.
+
+The game board can be created using Android layouts and widgets. I used TextView widgets with TableLayout and TableRow layouts. TableLayout doesn't support borders, so a rectangle was drawn in each cell and a background color was set to better see the cell borders. You should be able to programmatically add rows and cells of TextView during the game to change board size for different screen sizes and custom player choice. It keeps track of each cell of TextView added to the board to change its text value as the game logic determines new cell values after each player move.
 
 ### Data
 
-If the player doesn't sign in local data will be used. If the player signs in remote data will overwrite local data. Local data will be written remotely before the player exits the app. [Firebase](#Firebase) might be used for this purpose.
+If data storage in the cloud is added to this project then if the player doesn't sign in local data would be used. If the player signs in remote data will overwrite local data. If the user is logged in, local data will be written remotely before the player exits the app. [Firebase](#Firebase) might be used for this purpose.
 
-The Firestore database of Firebase will be used. At the top level, a collection of users (documents of the users collection) with one unique user ID per document to locate each user. The user ID is returned by Firebase Authentication after a user is created and can be found in the users section of Authentication.
+The Firestore database of Firebase will be used. At the top level, a collection of users (documents of the user's collection) with one unique user ID per document to locate each user. The user ID is returned by Firebase Authentication after a user is created and can be found in the users section of Authentication.
 
 Registering an account will allow users to save their credentials to the cloud to allow the storage of their game data remotely. A game like this likely wouldn't need cloud storage unless connected to cloud game services, such as Google Play.
 
@@ -179,32 +183,50 @@ Registering an account will allow users to save their credentials to the cloud t
 
 The Jetpack library [navigation](#navigation) is used with a navigation controller, navigation graph xml, an navigation host fragment. A single navigation activity and its layout xml hosts different layouts, which are themselves managed through their respective layout xml and fragment class files. The navigation graph defines the activity stack behavior and allows type safe passing of data by bundling it in navigation controller **navigate** function calls.
 
-The app launches with the NavigationActivity class hosting the LoginFragment class. This fragment allows a user to login with an existing account (no database and device storage yet) to play the game. The user can also play as a guest with no account by hitting the floating action button without entering user data. 
+The navigation controller is found and used to navigation to the appropriate fragment layout depending on what button is pressed and if valid data is provided.
+
+The app launches with the NavigationActivity class hosting the LoginFragment class. This fragment allows a user to login with an existing account (no storage of user data yet) to play the game. The user can also play as a guest with no account by hitting the floating action button without entering user data. 
+
+![Login Screen](./Screenshot_login_enter_user.png "Login Screen")
+<br>*Figure 2: Login Screen; An on screen keyboard allows a user to enter their username and password.*
 
 The different buttons of LoginFragment have actions that are set with OnClickListener lambda functions (as the OnClickListener interface only has one method). These functions pass a View object reference (parent class of many widgets including the button) to the defined function code, but you don't have to use it.
 
 The login button runs some code to check if the email and password are valid. A regular expression `java.util.regex.Pattern` object is used to check for a valid email pattern. This object has a matcher method to test a passed string reference against a compiled pattern.
 
+If the user has been registered before (explained below) then they will log into the game through Firebase.
+
 The main game button, as a floating action button, allows the user to play as a guest or with login details if they are filled in first.
 
-A register button allows the user to change to the register fragment layout.
+A register button allows the user to change to the register fragment (`RegisterFragment`) layout. This allows the player to register an email and password with Firebase.
 
-The main button (a floating action button)
-A passive view consists of the views and their controllers. As the user uses buttons, swipes a direction, etc., listeners take action to signal model to move the numbers a direction using the game logic.
+A passive view consists of the views and their controllers. As the user uses buttons, swipes a direction, etc., listeners take action to signal model (as a game logic object) to move the numbers a direction using the game logic. 
 
-The navigation controller is found and used to navigation to the appropriate fragment layout depending on what button is pressed and if valid data is provided.
+![Main Screen](./Screenshot_main_user_stats.png "Main Screen")
+<br>*Figure 3: Main Screen; A game board and direction pad of four direction buttons and an undo button allow the user to play. A toolbar at the top allows player to start a new game, choose options, or logout and quit the game.*
 
-The `RegisterFragment` allows the user to create a new account. 
+In addition to the direction buttons, a center undo button is present to allow to player to go back any amount of moves up to the start of the current game. This is handled with a stack. The stack holds an ArrayList<Cell2048> of all non-empty cells. Non-empty means a non-zero value for the cell. The cells contain the position on the board (row, column) and the value. No action will be taken and a message will be displayed if the user tries to move past the starting move.
 
-The model consists of the game logic.
+![Main Screen - undo used](./Screenshot_main_user_stats.png "Main Screen undo used")
+<br>*Figure 4: Main Screen when undo is used; The undo button allows the user to go back one move.*
 
-## TODO
+After each move, a call is made to check the game status. The status is an enum class that includes "IN_PROGRESS, USER_WON, and USER_LOST". 
 
-- [ ] A playable game with basic graphics.
-- [ ] Allow user to choose and set several different play options.
-- [ ] Allow choice of a few game board sizes
+Depending on the status of the game, more moves will be allowed, a game won message will be displayed, or a game lost message will be displayed.
+
+![Main Screen - loss](./Screenshot_main_loss.png "Main Screen - loss")
+<br>*Figure 5: The game ending with a loss are there are no more possible moves. The direction and undo keys have been disabled until a new game is started.*
+
+It the game has ended with a win or loss, then no more moves will be allowed and the user can start a new game or log out of their account and quit.
+
+As the player plays games, all user data is saved and displayed on the game screen. The [ViewModel](#ViewModel) class is used to access and store data across fragments and different games.
+
+## Goals for this project
+
+- [x] A playable game with basic graphics.
+- [x] Record user statistics to display in a UI and potentially save across play sessions.
+- [x] Allow user accounts and cloud storage. (Firebase access currently down)
+- [ ] Store user data in the cloud
+- [ ] Allow user to choose and set several different play options: board size, winning score, etc.
 - [ ] Based on the phones screen size, determine the range of permitted number grid x and y axes. 
-- [ ] An options screen or popup menu allows you to select the number grid size.
-- [ ] Record user statistics to display in a UI and potentially save across play sessions.
-- [ ] Allow user accounts and cloud storage.
 - [ ] Improve presentation: more attractive visuals, sounds, color, vectors, etc.

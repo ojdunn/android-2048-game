@@ -3,9 +3,7 @@ package com.owenjdunn.game2048
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -25,7 +23,6 @@ class NavigationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
 
-        // CRASH next line? illegalstateexception when using FragmentContainerView; no crash with fragment
         val nc = findNavController(R.id.nav_host_fragment)
         appBarConfig = AppBarConfiguration(nc.graph)
         setupActionBarWithNavController(nc, appBarConfig)
@@ -36,20 +33,11 @@ class NavigationActivity : AppCompatActivity() {
      */
     override fun onSupportNavigateUp(): Boolean {
         val nc = findNavController(R.id.nav_host_fragment)
-// handle back button on toolbar (different from physical back button)
-//        nc.currentDestination?.let {
-//            if (it.id == R.id.mainFragment) {
-//                viewModel.signout()
-//                nc.navigate(R.id.action_main2login)
-//            } else {
-//                nc.popBackStack()
-//            }
-//        }
         return nc.navigateUp(appBarConfig) || super.onSupportNavigateUp()
     }
 
     /**
-     *  Allow hiding of back toolbar button in game. Only allow logout to quit game.
+     *  Allow back button of toolbar to go back to login fragment.
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

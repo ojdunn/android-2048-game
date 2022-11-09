@@ -15,11 +15,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import java.util.regex.Pattern
 
-// Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//private const val ARG_PARAM1 = "param1"
-//private const val ARG_PARAM2 = "param2"
-
 /**
  * A simple [Fragment] subclass.
  * Use the LoginFragment.newInstance factory method to
@@ -42,9 +37,7 @@ class LoginFragment : Fragment() {
 //        }
 //    }
 
-// shared instance of ViewModel with all fragments; used with viewModel line in onActivityCreated
-//    lateinit var viewModel: UserDataViewModel
-
+    // shared instance of ViewModel with all fragments; used with viewModel line in onActivityCreated
     // declare a ref to viewmodel instance and then initialize it with delegate
     // use a property delegate to init class;
     // use viewModels with fragment or activityViewModels with an activity like NavigationActivity (this app)
@@ -52,6 +45,11 @@ class LoginFragment : Fragment() {
 
     /**
      * Inflate the login layout.
+     *
+     * @param inflater [LayoutInflater]
+     * @param container [ViewGroup?]
+     * @param savedInstanceState [Bundle?]
+     * @return [View?]
      */
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,6 +68,8 @@ class LoginFragment : Fragment() {
      * within this method after the super call assures that.
      *
      * Deprecated
+     *
+     * @param savedInstanceState [Bundle?]
      */
 //    override fun onActivityCreated(savedInstanceState: Bundle?) {
 //        super.onActivityCreated(savedInstanceState)
@@ -80,6 +80,12 @@ class LoginFragment : Fragment() {
     /**
      * Handle view listeners for login_fragment layout. Similar use as [onCreate()], but View methods
      * must be called from the passed view object.
+     *
+     * Handles user login data and transition to other fragments with the navigation controller. User
+     * data is handled locally with the ViewModel shared instance.
+     *
+     * @param view [View]
+     * @param savedInstanceState [Bundle?]
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val email = view.findViewById<EditText>(R.id.editTextEmailAddress)
@@ -123,7 +129,6 @@ class LoginFragment : Fragment() {
                     }
                 }
             } else {  // play as guest in main game UI with local data use
-//                viewModel.userId.value = "Guest" // store data into viewmodel
                 findNavController().navigate(R.id.action_login2main)
             }
         }
@@ -147,26 +152,10 @@ class LoginFragment : Fragment() {
                 signInButton.startAnimation(shake)
             }
         }
-        // Sign up for a new user account. Might add database services later.
+        // Sign up for a new user account.
         registerButton.setOnClickListener { _ ->
-//            Snackbar.make(registerButton, "Register not available yet", Snackbar.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_login2register)    // goto register UI
         }
-        // Options - Action menu choice TODO
-        //
-//        optionsAction.setOnClickListener { _ ->
-//            Snackbar.make(optionsAction, "No Options available yet", Snackbar.LENGTH_SHORT).show()
-//            findNavController().navigate(R.id.action_login2options)    // goto register UI
-
-//        }
-        // Statistics UI - TODO
-//        statsAction.setOnClickListener { _ ->
-//
-//        }
-        // Log out - Action menu choice TODO likely will be in another method
-//        logOutAction.setOnClickListener { _ ->
-//            Snackbar.make(logOutAction, "Register not available yet, so no log out either", Snackbar.LENGTH_SHORT).show()
-//        }
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -180,7 +169,7 @@ class LoginFragment : Fragment() {
 //         * @param param2 Parameter 2.
 //         * @return A new instance of fragment LoginFragment.
 //         */
-//        // TODO: Rename and change types and number of parameters
+//        // Rename and change types and number of parameters
 //        @JvmStatic
 //        fun newInstance(param1: String, param2: String) =
 //            LoginFragment().apply {
@@ -197,9 +186,11 @@ class LoginFragment : Fragment() {
      *
      * Checks if an email is given, if the email fits a regex pattern and if the password matches a
      * hardcoded value.
+     *
      * @param view - a view to find the parent view from
      * @param emailStr - user entered email to [EditText]
      * @param passStr - user entered password to [EditText]
+     * @return [Boolean] - is email valid?
      */
     private fun isValidLoginData(view: EditText, emailStr: String, passStr: String): Boolean {
         when {  // 3 invalid conditions to check for first before 'else' acceptance

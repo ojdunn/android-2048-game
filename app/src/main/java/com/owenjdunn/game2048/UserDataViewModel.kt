@@ -11,19 +11,12 @@ import androidx.lifecycle.ViewModel
  */
 class UserDataViewModel : ViewModel() {
     var userId = MutableLiveData<String?>() // the backing store for property userId
-//    lateinit var userId: MutableLiveData<String?> // the backing store for property userId
-//    lateinit var userName: MutableLiveData<String?> // display name for user
     private val repo = Game2048Repository() // repository object
     // player game stats mutable live data
 //    val highScore = MutableLiveData<Int?>()
     var wins = MutableLiveData<Int>(0)
     var losses = MutableLiveData<Int>(0)
     var totalMoves = MutableLiveData<Int>(0)
-//    val timePlayed = MutableLiveData<Int>()
-
-//    init {
-//        userId.value = "Guest"  // init value if not logged in
-//    }
 
     /**
      * Pass email and password to repository to interface with the Firebase backend to authenticate
@@ -32,10 +25,9 @@ class UserDataViewModel : ViewModel() {
      * The [UserDataViewModel.userId] parameter is set based on the results of the attempted
      * authentication.
      *
-     * @param view - any view from current context used for a Snackbar message in case of error
-     * @param email
-     * @param password
-     * @return uidResponse - returns uid if verified, null if not
+     * @param view [View] any view from current context used for a Snackbar message in case of error
+     * @param email [String]
+     * @param password [String]
      */
     fun signInWithEmailAndPassword(view: View, email: String, password: String) {
         userId = repo.firebaseSignInWithEmail(view, email, password)
@@ -49,9 +41,8 @@ class UserDataViewModel : ViewModel() {
      * authentication.
      *
      * @param view - any view from current context
-     * @param email
-     * @param password
-     * @return uidResponse - returns uid if verified, null if not
+     * @param email [String]
+     * @param password [String]
      */
     fun signUpWithEmailAndPassword(view: View, email: String, password: String) {
         userId = repo.firebaseSignUpWithEmail(view, email, password)
@@ -62,7 +53,7 @@ class UserDataViewModel : ViewModel() {
      *
      * Calls [Game2048Repository.firebaseIsUserSignedIn].
      *
-     * @return Boolean - is user signed in?
+     * @return [Boolean] is user signed in?
      */
     fun isUserSignedIn() : Boolean = repo.firebaseIsUserSignedIn()
 
