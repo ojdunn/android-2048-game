@@ -3,15 +3,21 @@ package com.owenjdunn.game2048
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AnimationUtils
+import android.widget.ImageButton
 import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.fragment.app.Fragment
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.common.math.IntMath.log2
 import java.math.RoundingMode
+
 
 // Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,6 +38,15 @@ class MainFragment : Fragment() {
 //    lateinit var viewModel: UserDataViewModel
     // use property delegate to init viewmodel class or gain shared reference
     private val viewModel by activityViewModels<UserDataViewModel>()
+//    private val highScore by activityViewModels<UserDataViewModel>()
+//    private val wins by activityViewModels<UserDataViewModel>()
+//    private val losses by activityViewModels<UserDataViewModel>()
+//    private val totalMoves by activityViewModels<UserDataViewModel>()
+    // player stats - local data; TODO assign to viewModel before leaving screen, logging out, ..
+//    private var highScore: Int = 0
+//    private var wins: Int = 0
+//    private var losses: Int = 0
+//    private var totalMoves: Int = 0
     private val s = UserData()     // TODO init with database values, if available, write to DB before leaving app
     private var numRandomVals = 3  // how many random values start the game with TODO allow user to choose
 //    private val colors: Array<Int> = arrayOf(R.color.dark_orange_a100_0, R.color.light_orange_a100_1,
@@ -47,6 +62,7 @@ class MainFragment : Fragment() {
         R.drawable.text_color128, R.drawable.text_color256, R.drawable.text_color512,
         R.drawable.text_color1024, R.drawable.text_color2048, R.drawable.text_color4096,
         R.drawable.text_color8192)
+//    abstract var fragmentView: View
 
     /**
      * Get passed data if available.
@@ -63,7 +79,6 @@ class MainFragment : Fragment() {
 //        emailAddr = try {     // handled by viewmodel?
 //                requireArguments().getString("userEmail").toString()
 //            } catch (e: IllegalStateException) { "Guest" /* don't use account, use local data*/ }
-
     }
 
     /**
@@ -83,16 +98,20 @@ class MainFragment : Fragment() {
      * data from the viewmodel the passive view or [MainFragment] uses the observer pattern. The
      * observer automatically updates the TextView with new user_id.
      */
-    @Deprecated(message = "deprecated")
+    @Deprecated(message = "deprecated", replaceWith = ReplaceWith(
+        "super.onActivityCreated(savedInstanceState)",
+        "androidx.fragment.app.Fragment"
+    )
+    )
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProvider(requireActivity()).get(UserDataViewModel::class.java)
+//        viewModel = ViewModelProvider(requireActivity()).get(UserDataViewModel::class.java)   // use with lateinit approach to val viewModel
         // use observer pattern to retrieve data from viewmodel and display on UI
         // TODO place game and/or user data here (time, score, high score, moves, etc.)
-        viewModel.userId.observe(this.viewLifecycleOwner) { z ->    // Observer defined lambda
-            val userId = view?.findViewById<TextView>(R.id.user_id)
-            userId?.text = z    // update TextView text
-        }
+//        viewModel.userId.observe(this.viewLifecycleOwner) { z ->    // Observer defined lambda
+//            val userId = view?.findViewById<TextView>(R.id.user_id)
+//            userId?.text = z    // update TextView text
+//        }
 
         // set user text to Guest if not logged in
 //        view?.findViewById<TextView>(R.id.user_id)?.text ?:
@@ -104,10 +123,36 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // define physical back button activity
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.signOut()
+//                viewModel.userId.value = null
+                findNavController().navigate(R.id.action_main2login)
+            }
+        })
+        // hide toolbar back button
+        val actionBar = this.requireActivity().actionBar
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+
+        val gameTableLayout: TableLayout = view.findViewById(R.id.game_table_layout)
+        val upBtn = view.findViewById<ImageButton>(R.id.upBtn)
+        val downBtn = view.findViewById<ImageButton>(R.id.downBtn)
+        val leftBtn = view.findViewById<ImageButton>(R.id.leftBtn)
+        val rightBtn = view.findViewById<ImageButton>(R.id.rightBtn)
+        val undoBtn = view.findViewById<ImageButton>(R.id.undoBtn)
+        val btns: Array<ImageButton> = arrayOf(upBtn, downBtn, leftBtn, rightBtn, undoBtn)
+
+        val shake = AnimationUtils.loadAnimation(this.context, R.anim.shake)
+
+        val printData = view.findViewById<TextView>(R.id.user_id)
+
+        // handle viewModel user data
+//        viewModel.wins = MutableLiveData<Int>(0)
+
         // change text of TextView widget
 //        val userId = view.findViewById<TextView>(R.id.user_id)    // handled only by viewmodel Observer now?
 //        userId.text = emailAddr   // handled only by viewmodel Observer now?
-        val gameTableLayout: TableLayout = view.findViewById(R.id.game_table_layout)
 
         // update user stats
 //        s.highScore = 2048
@@ -155,11 +200,59 @@ class MainFragment : Fragment() {
 //        val drawableStringRoot: String = "text_color"
 
         // Create game board
+        // TODO take user options to create new game
         createGameBoard(view, game, gameTableLayout)
 
-        // Update game board
-        updateGameBoard(view, game, gameTableLayout)
+        // init user data display
+        printUserStats(printData)
 
+        // game play until a certain events happen
+        // add listeners to all buttons to play the game
+        upBtn.setOnClickListener { _ ->
+            // call game logic to slide cells up
+            game.slide(SlideDirection.UP)
+            // update board state
+            updateGameBoard(view, game, gameTableLayout)
+            // check game status
+            checkGameStatus(view, game, btns)
+            // update view with user statistics
+            printUserStats(printData)
+        }
+        downBtn.setOnClickListener { _ ->
+            game.slide(SlideDirection.DOWN)
+            updateGameBoard(view, game, gameTableLayout)
+            checkGameStatus(view, game, btns)
+            printUserStats(printData)
+        }
+        leftBtn.setOnClickListener { _ ->
+            game.slide(SlideDirection.LEFT)
+            updateGameBoard(view, game, gameTableLayout)
+            checkGameStatus(view, game, btns)
+            printUserStats(printData)
+        }
+        rightBtn.setOnClickListener { _ ->
+            game.slide(SlideDirection.RIGHT)
+            updateGameBoard(view, game, gameTableLayout)
+            checkGameStatus(view, game, btns)
+            printUserStats(printData)
+        }
+        undoBtn.setOnClickListener { _ ->
+            try {
+                viewModel.totalMoves.value = viewModel.totalMoves.value?.minus(2)   // balances to 1 less move after all function calls
+                game.undo()
+            } catch (e: java.lang.IllegalStateException) {
+                viewModel.totalMoves.value = viewModel.totalMoves.value?.plus(1)
+
+    // negate move decrease on fail
+                // at starting move: give some feedback (shake btn, ..)
+                undoBtn.startAnimation(shake)
+                Snackbar.make(view, getString(R.string.undo_no_moves), Snackbar.LENGTH_LONG)
+                        .show()
+            }
+            updateGameBoard(view, game, gameTableLayout)
+            checkGameStatus(view, game, btns)
+            printUserStats(printData)
+        }
 
     }
 
@@ -201,8 +294,14 @@ class MainFragment : Fragment() {
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_logout) {    // goto a new instance of login screen, log out of user account
-            viewModel.signOut()
+            viewModel.signOut() // Firebase; must use to not auto go back to this screen from login fragment?
+//            findNavController().popBackStack()
             findNavController().navigate(R.id.action_main2login)
+            return true
+        }
+        else if (item.itemId == R.id.new_game) {
+            // TODO update user stats using viewModel?
+            findNavController().navigate(R.id.action_mainFragment_self) // TODO figure out how to keep stats after this
             return true
         }
 //        else if (item.itemId == R.id.action_options) {    // TODO goto options UI
@@ -213,6 +312,7 @@ class MainFragment : Fragment() {
 //        findNavController().navigate(R.id.action_main2stats)
 //           return true
 //        }
+
         return false
     }
 
@@ -224,7 +324,7 @@ class MainFragment : Fragment() {
      * @param gameTableLayout
      */
     private fun createGameBoard(view: View, game: Game2048, gameTableLayout: TableLayout,
-                                rows: Int = 6, cols: Int = 6, winningValue: Int = 128) {
+                                rows: Int = 6, cols: Int = 6, winningValue: Int = 2048) {
         // TODO allow choice from options screen of game size (likely min of 3 to max 6 cell dimensions to fit phone screens), winning score, nRandomVals, ..
         game.resizeBoard(rows, cols, winningValue) // set to 2048 when testing done
 //        var viewRow: TableRow
@@ -237,7 +337,6 @@ class MainFragment : Fragment() {
         // add random cell values to board
         for (i in 1.. numRandomVals)
             game.placeRandomValue()
-
         // Update game board
         updateGameBoard(view, game, gameTableLayout)
     }
@@ -260,6 +359,7 @@ class MainFragment : Fragment() {
                 cellText.text = "0000"
 //                cellText.setTextColor("@drawable/text_color0")
                 // same color for text to not be visible (so columns all same width)
+                cellText.setBackgroundResource(R.drawable.text_color0)
                 cellText.setTextColor(getColor(view.context, R.color.dark_orange_a100_0))
             }
         }
@@ -277,6 +377,9 @@ class MainFragment : Fragment() {
         var cellText: TextView
         var cellValue: Int
 
+        // clear old TextView cells (doesn't effect 2d array game object values)
+        clearGameBoard(view, gameTableLayout)
+
         // update view with all nonempty game cells
         for(cell in game.nonEmptyTiles) {
             // get table row view
@@ -289,7 +392,7 @@ class MainFragment : Fragment() {
                 cellText.setBackgroundResource(R.drawable.text_color0)
                 cellText.setTextColor(getColor(view.context, R.color.dark_orange_a100_0))
             } else {
-                cellText.text = buildString {} + cellValue
+                cellText.text = "$cellValue"
                 // for a given board value, call index = (log2(value) + 1); all values are powers of 2 except 0
                 cellText.setBackgroundResource(backgrounds[ log2(cellValue, RoundingMode.UNNECESSARY) + 1 ])
                 cellText.setTextColor(Color.WHITE)
@@ -298,13 +401,87 @@ class MainFragment : Fragment() {
     }
 
     /**
+     * Check game status. Print message to user on a win or lose. Prevent continued play by deactivating
+     * buttons.
+     *
+     * @param view [View]; provides view context to access views
+     * @param game [Game2048]; model game logic
+     * @param btns [Array<ImageButton>] array of image buttons making up the direction pad for game
+     */
+    private fun checkGameStatus(view: View, game: Game2048, btns: Array<ImageButton>) {
+        game.updateStatus()
+        when (game.status)  {
+            GameStatus.IN_PROGRESS -> {
+                viewModel.totalMoves.value = viewModel.totalMoves.value?.plus(1)
+            }
+            GameStatus.USER_WON -> {
+                viewModel.totalMoves.value = viewModel.totalMoves.value?.plus(1)
+                viewModel.wins.value = viewModel.wins.value?.plus(1)
+                // TODO add high score tracking - might want a more complex score tracking system (points for moves, combines at certain values, time, ..)
+//                if (highScore < winningScore)
+//                    highScore = winningScore
+                // msg to user
+                Snackbar.make(view, getString(R.string.win_message), Snackbar.LENGTH_LONG)
+                        .show()
+                // deactivate buttons and update user data
+                endGame(btns)
+            }
+            GameStatus.USER_LOST -> {
+                viewModel.totalMoves.value = viewModel.totalMoves.value?.plus(1)
+                viewModel.losses.value = viewModel.losses.value?.plus(1)
+                // msg to user
+                Snackbar.make(view, getString(R.string.lose_message), Snackbar.LENGTH_LONG)
+                        .show()
+                // deactivate buttons and update user data
+                endGame(btns)
+            }
+        }
+    }
+
+    /**
+     * Display updated user statistics on the game screen.
+     *
+     * @param textView [TextView]; text box to display user statistics
+     */
+    private fun printUserStats(textView: TextView) {
+        val s: String =
+            if (viewModel.userId.value != null)
+                "Player: ${viewModel.userId.value}, Wins: ${viewModel.wins.value} , Losses: ${viewModel.losses.value} , Moves: ${viewModel.totalMoves.value}"
+            else
+                "Player: Guest, Wins: ${viewModel.wins.value}, Losses: ${viewModel.losses.value} , Moves: ${viewModel.totalMoves.value}"
+
+        textView.text = s
+    }
+
+    /**
+     * End game by deactivating buttons and updating user statistics.
+     *
+     * @param btns [Array<ImageButton>]; array with all ImageButton buttons to make up the direction
+     * controls for game.
+     */
+    private fun endGame(btns: Array<ImageButton>) {
+        for (btn in btns) {
+            btn.isVisible = false   // you can also make them unclickable
+        }
+    }
+
+    /**
+     * Start game by activating buttons and updating user statistics.
+     */
+//    private fun startGame(btns: Array<ImageButton>) {
+//        for (btn in btns) {
+//            btn.isVisible = true
+//        }
+//    }
+
+    /**
      * Update game statistics for the View Model.
      */
-    fun updateStats(s: UserData) {
-        viewModel.highScore.value = s.highScore
-        viewModel.wins.value = s.wins
-        viewModel.losses.value = s.losses
-        viewModel.totalMoves.value = s.totalMoves
-        viewModel.timePlayed.value = s.timePlayed
-    }
+//    private fun updateStats(s: UserData) {
+////        viewModel.highScore.value = s.highScore
+//        viewModel.wins.value = s.wins
+//        viewModel.losses.value = s.losses
+//        viewModel.totalMoves.value = s.totalMoves
+////        viewModel.timePlayed.value = s.timePlayed
+//    }
 }

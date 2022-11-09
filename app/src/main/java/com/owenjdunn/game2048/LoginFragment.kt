@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -90,12 +91,12 @@ class LoginFragment : Fragment() {
         val shake = AnimationUtils.loadAnimation(this.context, R.anim.shake)
 
         // init fields for testing
-        email.text.insert(0, "dunnow@mail.gvsu.edu")
-        password.text.insert(0, "123456")
+//        email.text.insert(0, "dunnow@mail.gvsu.edu")
+//        password.text.insert(0, "123456")
 
         // auto move to main screen if user is logged in
         viewModel.userId.observe(viewLifecycleOwner) {
-            if (it != null) findNavController().navigate(R.id.action_login2main)
+            if (viewModel.userId.value != null) findNavController().navigate(R.id.action_login2main)
         }
 
         // Set onClick(v: View?) function for button view generated click events.
@@ -110,7 +111,9 @@ class LoginFragment : Fragment() {
                 if (isValidLoginData(email, emailStr, passStr)) {   // is data valid?
                     // attempt to sign in to Firebase with data
                     // view passed to give context
-                    viewModel.signInWithEmailAndPassword(view, emailStr, passStr)
+//                    viewModel.signInWithEmailAndPassword(view, emailStr, passStr) // Firebase
+                    viewModel.userId = MutableLiveData<String?>()   // replace with signin function above when Database active
+                    viewModel.userId.value = emailStr   // replace with signin function above when Database active
                     viewModel.userId.observe(viewLifecycleOwner) { uid ->
                         if (uid != null) {
                             findNavController().navigate(R.id.action_login2main)
@@ -130,7 +133,9 @@ class LoginFragment : Fragment() {
             val passStr = password.text.toString()
 
             if (isValidLoginData(email, emailStr, passStr)) {
-                viewModel.signInWithEmailAndPassword(email, emailStr, passStr)
+//                viewModel.signInWithEmailAndPassword(email, emailStr, passStr)    // Firebase
+                viewModel.userId = MutableLiveData<String?>()   // replace with signin function above when Database active
+                viewModel.userId.value = emailStr   // replace with signin function above when Database active
                 viewModel.userId.observe(viewLifecycleOwner) { uid ->
                     if (uid != null) {
                         findNavController().navigate(R.id.action_login2main)

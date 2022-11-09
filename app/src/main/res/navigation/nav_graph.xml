@@ -29,9 +29,12 @@
             app:argType="string" />
         <action
             android:id="@+id/action_main2login"
-            app:destination="@id/loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_mainFragment_self"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"

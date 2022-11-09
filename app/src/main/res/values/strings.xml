@@ -29,6 +29,10 @@
     <string name="left">move left</string>
     <string name="right">move right</string>
     <string name="undo">undo one move</string>
+    <string name="undo_no_moves">At starting move!</string>
+    <string name="win_message">You win! Play again?</string>
+    <string name="lose_message">You lose! Play again?</string>
+    <string name="new_game">New game</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
